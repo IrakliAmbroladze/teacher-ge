@@ -1,17 +1,11 @@
 import Image from "next/image";
 import { JSX } from "react";
 
-const Profile = async ({
-  params,
-}: {
-  params: { locale: string };
-}): Promise<JSX.Element> => {
-  const { locale } = params;
-  const langIsKa = locale == "ka";
+const Profile = async (): Promise<JSX.Element> => {
   return (
     <div className="flex flex-col flex-1">
       <h2 className="text-3xl sm:text-5xl md:text-8xl  m-10 dark:text-white text-black font-bold animate-rise0_25s">
-        {langIsKa ? "პ რ ო ფ ი ლ ი" : "P R O F I L E"}
+        P R O F I L E
       </h2>
       <div className="relative flex w-full max-w-[1100px] mx-auto items-center p-5 min-h-screen bg-[linear-gradient(135deg,rgba(34,46,70,0.15)_50%,rgba(255,226,193,0.15)_50%)] rounded-lg h-[1000px]">
         <Image

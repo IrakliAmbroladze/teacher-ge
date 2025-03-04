@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, JSX } from "react";
 import ProductCard from "./product-cart";
-import { Product, ProductListProps } from "@/types/product";
+import { Product } from "@/types/product";
 
-const ProductList = ({ locale }: ProductListProps): JSX.Element => {
+const ProductList = (): JSX.Element => {
   const [productList, setProductList] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ProductList = ({ locale }: ProductListProps): JSX.Element => {
               ${index % 2 !== 0 ? "mt-20" : ""}
               ${index % 3 !== 0 ? "mt-10" : ""}`}
           >
-            <ProductCard product={product} locale={locale} />
+            <ProductCard product={product} />
           </div>
         ))}
       </div>

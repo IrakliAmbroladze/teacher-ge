@@ -1,16 +1,9 @@
 import ProductList from "./product-list";
 import { Search } from "./search-and-sort";
 import Image from "next/image";
-import { JSX } from "react";
+import { JSX, Suspense } from "react";
 
-interface ProductsProps {
-  params: { locale: string };
-}
-
-export default async function Products({
-  params,
-}: ProductsProps): Promise<JSX.Element> {
-  const { locale } = params;
+export default async function Products(): Promise<JSX.Element> {
   return (
     <div className="flex-grow px-6 md:overflow-y-auto">
       <div className="relative w-full max-h-56">
@@ -23,13 +16,15 @@ export default async function Products({
         />
 
         <div className="absolute inset-0 flex justify-center items-end lg:p-44">
-          <Search locale={locale} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search />
+          </Suspense>
         </div>
       </div>
 
       <div className="flex flex-col sm:flex-row mt-4">
         <div className="w-full max-w-[1110px] mx-auto dark:text-white mt animate-rise delay-1000">
-          <ProductList locale={locale} />
+          <ProductList />
         </div>
       </div>
     </div>

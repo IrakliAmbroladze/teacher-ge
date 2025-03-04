@@ -12,9 +12,8 @@ interface ProductCardProps {
 
 export default function ProductCard({
   product,
-  locale,
 }: ProductCardProps): JSX.Element {
-  const title = locale === "ka" ? product.title : product.title;
+  const title = product.title;
 
   return (
     <div

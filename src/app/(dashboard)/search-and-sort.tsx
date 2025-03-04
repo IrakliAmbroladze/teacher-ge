@@ -170,7 +170,7 @@ export function SortingButtons({ locale }: { locale: string }) {
   );
 }
 
-export function Search({ locale }: { locale: string }): JSX.Element {
+export function Search(): JSX.Element {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -202,7 +202,7 @@ export function Search({ locale }: { locale: string }): JSX.Element {
     <div className="my-2 relative w-full">
       <input
         className={`bg-stone-100 dark:bg-stone-500 text-stone-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-200 w-full px-4 py-2 rounded-lg pr-10 ${lusitana.className}`}
-        placeholder={locale == "ka" ? "ძებნა" : "search"}
+        placeholder="search"
         value={query}
         onChange={(e) => {
           const value = e.target.value;
