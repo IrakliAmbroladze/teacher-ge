@@ -3,6 +3,7 @@ import React, { JSX, useState } from "react";
 import { FiArrowDown, FiArrowUp, FiMenu } from "react-icons/fi";
 import { lusitana } from "@/components/ui/fonts";
 import Link from "next/link";
+import Image from "next/image";
 type NavLinkProps = {
   href: string;
   children: React.ReactNode;
@@ -38,11 +39,18 @@ export default function HeaderClientSide(): JSX.Element {
   return (
     <>
       <button
-        className={`${lusitana.className} text-2xl text-stone-900 dark:text-gray-200 flex items-center`}
+        className={`${lusitana.className} text-2xl flex items-center`}
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Toggle navigation menu"
         data-cy="menu"
       >
+        <Image
+          src="/logo.jpg"
+          alt="Logo"
+          width={580}
+          height={386}
+          className="w-20 h-auto"
+        />
         <FiMenu />
         {menuOpen ? <FiArrowDown /> : <FiArrowUp />}
       </button>

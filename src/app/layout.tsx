@@ -7,6 +7,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { EnvVarWarning } from "@/components/env-var-warning";
 import HeaderAuth from "@/components/header-auth";
 import HeaderClientSide from "@/components/HeaderClientSide";
+import { HEADER_HEIGHT } from "@/lib/constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,8 +45,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center flex-1 w-full ">
-            <nav className="w-full sm:px-20 py-5 flex justify-between h-16 items-center fixed  z-50">
+          <main
+            className="min-h-screen flex flex-col items-center flex-1 w-full "
+            // style={{ paddingTop: HEADER_HEIGHT }}
+          >
+            <nav
+              className={`w-full sm:px-20 py-5 flex justify-between  items-center fixed top-0 z-50`}
+              style={{ height: HEADER_HEIGHT }}
+            >
               <HeaderClientSide />
               <div className="flex gap-5 items-center">
                 {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
