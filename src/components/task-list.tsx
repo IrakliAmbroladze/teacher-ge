@@ -62,6 +62,9 @@ const TaskList = async ({
                         )?.name
                       }
                     </button>
+                    <div className="bg-[#be12be] text-white rounded-2xl text-center p-1.5">
+                      I კლასი
+                    </div>
                   </div>
                   <div className="font-bold my-5">{task.name}</div>
                   {task.description && (
