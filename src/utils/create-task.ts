@@ -1,11 +1,11 @@
 "use server";
 
-import { Task_Form } from "@/types/task";
+import { Task } from "@/types/task";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
-export async function createTask(taskData: Task_Form) {
+export async function createTask(taskData: Task) {
   const supabase = createClient();
   const {
     data: { session },

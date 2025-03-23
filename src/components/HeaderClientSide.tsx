@@ -56,9 +56,9 @@ export default function HeaderClientSide(): JSX.Element {
       </button>
       <Link
         href="/protected/create-task"
-        className="border border-[#8338EC] rounded-sm bg-[#8338EC] cursor-pointer py-2.5 px-5 text-white  "
+        className="border border-[#8338EC] rounded-sm bg-[#8338EC] cursor-pointer py-1 sm:py-2.5 sm:px-5 text-white  "
       >
-        + new
+        <span>new</span>
       </Link>
       {menuOpen && (
         <nav

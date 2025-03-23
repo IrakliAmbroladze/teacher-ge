@@ -2,9 +2,9 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function fetchTasks() {
+export async function fetchPriorities() {
   const supabase = createClient();
-  const { data, error } = await (await supabase).from("tasks").select();
+  const { data, error } = await (await supabase).from("priorities").select();
   if (error instanceof Error) {
     console.log("Error: " + error.message);
   } else {

@@ -1,16 +1,18 @@
 "use client";
 
-import { Task_Form } from "@/types/task";
+import { Priority } from "@/types/priority";
+import { Task } from "@/types/task";
 import { createTask } from "@/utils/create-task";
 
 import React, { useEffect, useState } from "react";
 
-const TaskForm = () => {
-  const initialFormData: Task_Form = {
+const TaskForm = ({ priorities }: { priorities: Priority[] }) => {
+  const initialFormData: Task = {
     name: "",
-    description: "",
+    description: null,
+    priority_id: 2,
   };
-  const [formData, setFormData] = useState<Task_Form>(initialFormData);
+  const [formData, setFormData] = useState<Task>(initialFormData);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -131,7 +133,7 @@ const TaskForm = () => {
             <textarea
               id="description"
               name="description"
-              value={formData.description}
+              value={formData.description || ""}
               onChange={handleChange}
               aria-label="Enter description"
               className={`w-full p-2 border rounded ${
@@ -155,6 +157,23 @@ const TaskForm = () => {
               <div>მაქს. 255 სიმბ.</div>
             </div>
             <br />
+          </div>
+          <div className="w-full pr-5">
+            <label htmlFor="priority_id">პრიორიტეტი*</label>
+            <select
+              id="priority_id"
+              name="priority_id"
+              value={formData.priority_id}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border rounded"
+            >
+              {priorities.map((priority) => (
+                <option key={priority.id} value={priority.id}>
+                  {priority.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         {error && <p className="text-red-500 mt-2">{error}</p>}
