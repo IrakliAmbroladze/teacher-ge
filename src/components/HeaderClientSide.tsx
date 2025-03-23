@@ -49,11 +49,17 @@ export default function HeaderClientSide(): JSX.Element {
           alt="Logo"
           width={580}
           height={386}
-          className="w-20 h-auto"
+          className="w-[60px] h-auto"
         />
         <FiMenu />
         {menuOpen ? <FiArrowDown /> : <FiArrowUp />}
       </button>
+      <Link
+        href="/protected/create-task"
+        className="border border-[#8338EC] rounded-sm bg-[#8338EC] cursor-pointer py-2.5 px-5 text-white  "
+      >
+        + new
+      </Link>
       {menuOpen && (
         <nav
           className={`absolute h-svh top-12 left-0 w-full shadow-md dark:bg-stone-800/20 bg-stone-50/20 backdrop-blur-md text-5xl`}
