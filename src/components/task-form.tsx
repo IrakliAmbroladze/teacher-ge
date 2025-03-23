@@ -2,15 +2,23 @@
 
 import { Priority } from "@/types/priority";
 import { Task } from "@/types/task";
+import { Status } from "@/types/status";
 import { createTask } from "@/utils/create-task";
 
 import React, { useEffect, useState } from "react";
 
-const TaskForm = ({ priorities }: { priorities: Priority[] }) => {
+const TaskForm = ({
+  statuses,
+  priorities,
+}: {
+  statuses: Status[];
+  priorities: Priority[];
+}) => {
   const initialFormData: Task = {
     name: "",
     description: null,
     priority_id: 2,
+    status_id: 1,
   };
   const [formData, setFormData] = useState<Task>(initialFormData);
 
@@ -171,6 +179,23 @@ const TaskForm = ({ priorities }: { priorities: Priority[] }) => {
               {priorities.map((priority) => (
                 <option key={priority.id} value={priority.id}>
                   {priority.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="w-full pr-5">
+            <label htmlFor="priority_id">სტატუსი*</label>
+            <select
+              id="status_id"
+              name="status_id"
+              value={formData.status_id}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border rounded"
+            >
+              {statuses.map((status) => (
+                <option key={status.id} value={status.id}>
+                  {status.name}
                 </option>
               ))}
             </select>

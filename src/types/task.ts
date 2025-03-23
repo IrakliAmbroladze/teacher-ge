@@ -6,4 +6,5 @@ export interface Task {
   due_date?: string;
   employee_id?: string;
   priority_id: number;
+  status_id?: number;
 }

@@ -3,6 +3,7 @@ import { Priority } from "@/types/priority";
 import { Task } from "@/types/task";
 import { fetchPriorities } from "@/utils/server/fetch-priorities";
 import { fetchTasks } from "@/utils/server/fetch-tasks";
+import TaskList from "@/components/task-list";
 
 export default async function ProtectedPage() {
   const tasks: Task[] = await fetchTasks();
@@ -14,19 +15,7 @@ export default async function ProtectedPage() {
       style={{ paddingTop: HEADER_HEIGHT }}
     >
       <h2 className="font-bold text-2xl mb-4">Tasks list</h2>
-      <div className="text-2xl mb-4">
-        {tasks?.map((task) => (
-          <div key={task.id} className="flex gap-5">
-            <div className="font-bold">{task.name}</div>
-            <div>{task.description}</div>
-            <div>
-              {priorities
-                .filter((priority) => priority.id === task.priority_id)
-                .map((pr) => pr.name)}
-            </div>
-          </div>
-        ))}
-      </div>
+      <TaskList tasks={tasks} priorities={priorities} />
     </div>
   );
 }

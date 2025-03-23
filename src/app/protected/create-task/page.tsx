@@ -1,14 +1,17 @@
 import TaskForm from "@/components/task-form";
 import { Priority } from "@/types/priority";
+import { Status } from "@/types/status";
 import { fetchPriorities } from "@/utils/server/fetch-priorities";
+import { fetchStatuses } from "@/utils/server/fetch-statuses";
 import React from "react";
 
 const CreateTask = async () => {
   const priorities: Priority[] = await fetchPriorities();
+  const statuses: Status[] = await fetchStatuses();
   return (
     <div className="px-[120px]">
       <div className="text-4xl font-bold mt-36">შექმენი ახალი დავალება</div>
-      <TaskForm priorities={priorities} />
+      <TaskForm statuses={statuses} priorities={priorities} />
     </div>
   );
 };
