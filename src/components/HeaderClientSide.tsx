@@ -45,7 +45,7 @@ export default function HeaderClientSide(): JSX.Element {
         data-cy="menu"
       >
         <Image
-          src="/logo.jpg"
+          src="/icons/logo.svg"
           alt="Logo"
           width={580}
           height={386}
