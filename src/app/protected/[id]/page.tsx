@@ -89,8 +89,8 @@ const TaskPage = async ({
                 </div>
               </div>
               <div className="flex gap-10 my-5">
-                <span>დავალების ვადა</span>{" "}
-                <DateComponent date={task.due_date} />
+                <span>დავალების ვადა</span>
+                {task.due_date && <DateComponent date={task.due_date} />}
               </div>
             </div>
           </div>

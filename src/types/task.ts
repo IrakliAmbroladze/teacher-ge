@@ -3,7 +3,7 @@ export interface Task {
   created_at?: string;
   name: string;
   description: string | null;
-  due_date: string;
+  due_date?: string;
   employee_id?: string;
   priority_id: number;
   status_id?: number;
