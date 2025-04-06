@@ -27,7 +27,7 @@ const GroupedTasks = ({
     );
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-3">
       {groupedTasks.map(({ status, tasks }, index) => (
         <div key={index} className="p-4">
           <button

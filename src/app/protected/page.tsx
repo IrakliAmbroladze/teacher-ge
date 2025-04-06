@@ -4,6 +4,7 @@ import { Task } from "@/types/task";
 import { fetchPriorities } from "@/utils/server/fetch-priorities";
 import { fetchTasks } from "@/utils/server/fetch-tasks";
 import TaskList from "@/components/task-list";
+import Calendar from "@/components/calendar/Calendar";
 
 export default async function ProtectedPage() {
   const tasks: Task[] = await fetchTasks();
@@ -15,6 +16,7 @@ export default async function ProtectedPage() {
       style={{ paddingTop: HEADER_HEIGHT }}
     >
       <h2 className="font-bold text-2xl mb-4">Tasks list</h2>
+      <Calendar />
       <TaskList tasks={tasks} priorities={priorities} />
     </div>
   );
