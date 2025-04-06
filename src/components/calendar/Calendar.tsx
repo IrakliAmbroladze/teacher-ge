@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import TaskModal from "./TaskModal";
 import { MdAddTask } from "react-icons/md";
+import { createClient } from "@/utils/supabase/client";
+import { createCalendarTask } from "./create-calendar-task";
 
 const months = [
   "January",
@@ -21,6 +23,26 @@ const months = [
 const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Calendar() {
+  const supabase = createClient();
+  useEffect(() => {
+    async function loadTasks() {
+      const { data, error } = await supabase.from("calendar_tasks").select("*");
+
+      if (error) {
+        console.error("Error fetching tasks:", error);
+      } else {
+        const grouped: typeof tasks = {};
+        data.forEach(({ date_key, task_text, checked }) => {
+          if (!grouped[date_key]) grouped[date_key] = [];
+          grouped[date_key].push({ text: task_text, checked });
+        });
+        setTasks(grouped);
+      }
+    }
+
+    loadTasks();
+  }, []);
+
   const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
@@ -41,30 +63,61 @@ export default function Calendar() {
   const getDateKey = (date: Date) =>
     `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
-  const addTask = (date: Date, taskText: string) => {
+  const addTask = async (date: Date, taskText: string) => {
     const key = getDateKey(date);
-    const newTask = { text: taskText, checked: false };
-    setTasks((prev) => ({
-      ...prev,
-      [key]: [...(prev[key] || []), newTask],
-    }));
+    const taskData = {
+      date_key: key,
+      task_text: taskText,
+      checked: false,
+    };
+    try {
+      await createCalendarTask(taskData);
+      setTasks((prev) => ({
+        ...prev,
+        [key]: [...(prev[key] || []), { text: taskText, checked: false }],
+      }));
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log("Error: " + error.message);
+      } else {
+        console.log("An unknown error occurred.");
+      }
+    }
   };
 
-  const toggleTask = (key: string, idx: number) => {
-    const updated = tasks[key].map((task, i) =>
-      i === idx ? { ...task, checked: !task.checked } : task
-    );
-    setTasks((prev) => ({ ...prev, [key]: updated }));
+  const toggleTask = async (key: string, idx: number) => {
+    const taskToToggle = tasks[key][idx];
+
+    // Find the matching task in Supabase
+    const { data, error } = await supabase
+      .from("calendar_tasks")
+      .select("id")
+      .eq("date_key", key)
+      .eq("task_text", taskToToggle.text)
+      .maybeSingle();
+
+    if (error || !data) {
+      console.error("Error finding task to toggle:", error);
+      return;
+    }
+
+    const { id } = data;
+    const updatedChecked = !taskToToggle.checked;
+
+    const { error: updateError } = await supabase
+      .from("calendar_tasks")
+      .update({ checked: updatedChecked })
+      .eq("id", id);
+
+    if (updateError) {
+      console.error("Error updating task:", updateError);
+    } else {
+      const updated = tasks[key].map((task, i) =>
+        i === idx ? { ...task, checked: updatedChecked } : task
+      );
+      setTasks((prev) => ({ ...prev, [key]: updated }));
+    }
   };
-
-  useEffect(() => {
-    const stored = localStorage.getItem("calendarTasks");
-    if (stored) setTasks(JSON.parse(stored));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("calendarTasks", JSON.stringify(tasks));
-  }, [tasks]);
 
   const renderDay = (date: Date) => {
     const key = getDateKey(date);
@@ -146,8 +199,8 @@ export default function Calendar() {
   };
 
   return (
-    <div className="w-full px-10">
-      <div className="flex gap-4 mb-4">
+    <div className="w-full px-2.5">
+      <div className="flex mb-4 justify-between">
         <input
           type="number"
           value={year}
