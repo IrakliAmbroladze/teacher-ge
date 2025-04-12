@@ -2,7 +2,6 @@
 
 import { Task } from "@/types/task";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
 export async function createTask(taskData: Task) {
@@ -30,5 +29,5 @@ export async function createTask(taskData: Task) {
   }
 
   revalidatePath("/tasks");
-  redirect("/protected");
+  return { success: true };
 }
