@@ -115,7 +115,7 @@ const TaskForm = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 bg-white rounded-2xl shadow-lg p-8">
+    <div className="max-w-4xl mx-auto my-10 bg-white rounded-2xl shadow-lg p-8">
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="col-span-2 space-y-4">
