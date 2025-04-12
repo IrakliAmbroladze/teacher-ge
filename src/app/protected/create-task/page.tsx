@@ -9,8 +9,8 @@ const CreateTask = async () => {
   const priorities: Priority[] = await fetchPriorities();
   const statuses: Status[] = await fetchStatuses();
   return (
-    <div className="px-[120px]">
-      <div className="text-4xl font-bold mt-36">შექმენი ახალი დავალება</div>
+    <div className="px-2.5">
+      <div className="text-4xl font-bold mt-20">შექმენი ახალი დავალება</div>
       <TaskForm statuses={statuses} priorities={priorities} />
     </div>
   );
