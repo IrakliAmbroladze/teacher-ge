@@ -4,7 +4,7 @@ import { Priority } from "@/types/priority";
 import { Task } from "@/types/task";
 import { Status } from "@/types/status";
 import { createTask } from "@/utils/create-task";
-
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const TaskForm = ({
@@ -36,7 +36,7 @@ const TaskForm = ({
     null
   );
   const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
   const validateInput = (value: string) => {
     const regex = /^[a-zA-Z0-9\u10D0-\u10FF\s]*$/;
     return regex.test(value) && value.length >= 2 && value.length <= 255;
@@ -93,6 +93,7 @@ const TaskForm = ({
     try {
       localStorage.removeItem("formData");
       await createTask(formData);
+      router.push("/protected");
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("Error: " + error.message);
