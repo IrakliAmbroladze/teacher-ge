@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: ["ambroladzeirakli@gmail.com", "tinatingvaramia1@gmail.com"],
+    to: ["ambroladzeirakli@gmail.com", "tinatin.gvaramia.1@gmail.com"],
     subject: "შეიქმნა ახალი დავალება",
     text: `სათაური: ${name}\nაღწერა: ${description || "არ არის"}`,
   };

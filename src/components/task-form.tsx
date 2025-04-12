@@ -21,6 +21,7 @@ const TaskForm = ({
     status_id: 1,
   };
   const [formData, setFormData] = useState<Task>(initialFormData);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -85,6 +86,7 @@ const TaskForm = ({
     e: React.FormEvent<HTMLFormElement | HTMLSelectElement>
   ) => {
     e.preventDefault();
+    setLoading((l) => !l);
 
     if (!validateInput(formData.name)) {
       setError("ფორმა შეიცავს არასწორ მონაცემებს!");
@@ -101,7 +103,7 @@ const TaskForm = ({
         },
         body: JSON.stringify(formData),
       });
-
+      setLoading((l) => !l);
       router.push("/protected");
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -113,108 +115,142 @@ const TaskForm = ({
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="flex flex-col p-5">
-        <div className="flex w-full justify-around">
-          <div className="flex flex-col p-5 w-full">
-            <label htmlFor="name">სათაური*</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              aria-label="Enter name"
-              required
-              className={`w-full p-2 border rounded ${
-                isValidTitle === null
-                  ? "border-gray-400"
-                  : isValidTitle
-                  ? "border-green-500"
-                  : "border-red-500"
-              }`}
-            />
-            <div
-              className={`text-sm ${
-                isValidTitle === null
-                  ? "text-gray-400"
-                  : isValidTitle
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              <div>მინ. 2 სიმბ.</div>
-              <div>მაქს. 255 სიმბ.</div>
+    <div className="max-w-4xl mx-auto mt-10 bg-white rounded-2xl shadow-lg p-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="col-span-2 space-y-4">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                სათაური*
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                aria-label="Enter name"
+                required
+                className={`dark:text-black mt-1 block w-full p-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 ${
+                  isValidTitle === null
+                    ? "border-gray-300"
+                    : isValidTitle
+                    ? "border-green-500 focus:ring-green-200"
+                    : "border-red-500 focus:ring-red-200"
+                }`}
+              />
+              <div
+                className={`mt-1 text-xs ${
+                  isValidTitle === null
+                    ? "text-gray-400"
+                    : isValidTitle
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+              >
+                <div>მინ. 2 სიმბ.</div>
+                <div>მაქს. 255 სიმბ.</div>
+              </div>
             </div>
-            <br />
-            <label htmlFor="description">აღწერა</label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description || ""}
-              onChange={handleChange}
-              aria-label="Enter description"
-              className={`w-full p-2 border rounded ${
-                isValidDescription === null
-                  ? "border-gray-400"
-                  : isValidDescription
-                  ? "border-green-500"
-                  : "border-red-500"
-              }`}
-            />
-            <div
-              className={`text-sm ${
-                isValidDescription === null
-                  ? "text-gray-400"
-                  : isValidDescription
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              <div>მინ. 4 სიმბ.</div>
-              <div>მაქს. 255 სიმბ.</div>
+            <div>
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700"
+              >
+                აღწერა
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description || ""}
+                onChange={handleChange}
+                aria-label="Enter description"
+                rows={4}
+                className={`dark:text-black mt-1 block w-full p-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 ${
+                  isValidDescription === null
+                    ? "border-gray-300"
+                    : isValidDescription
+                    ? "border-green-500 focus:ring-green-200"
+                    : "border-red-500 focus:ring-red-200"
+                }`}
+              />
+              <div
+                className={`mt-1 text-sm ${
+                  isValidDescription === null
+                    ? "text-gray-400"
+                    : isValidDescription
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+              >
+                <div>მინ. 4 სიმბ.</div>
+                <div>მაქს. 255 სიმბ.</div>
+              </div>
             </div>
-            <br />
           </div>
-          <div className="w-full pr-5">
-            <label htmlFor="priority_id">პრიორიტეტი*</label>
-            <select
-              id="priority_id"
-              name="priority_id"
-              value={formData.priority_id}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border rounded"
-            >
-              {priorities.map((priority) => (
-                <option key={priority.id} value={priority.id}>
-                  {priority.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="w-full pr-5">
-            <label htmlFor="priority_id">სტატუსი*</label>
-            <select
-              id="status_id"
-              name="status_id"
-              value={formData.status_id}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border rounded"
-            >
-              {statuses.map((status) => (
-                <option key={status.id} value={status.id}>
-                  {status.name}
-                </option>
-              ))}
-            </select>
+          <div className="space-y-4">
+            <div>
+              <label
+                htmlFor="priority_id"
+                className="block text-sm font-medium text-gray-700"
+              >
+                პრიორიტეტი*
+              </label>
+              <select
+                id="priority_id"
+                name="priority_id"
+                value={formData.priority_id}
+                onChange={handleChange}
+                required
+                className="dark:text-black mt-1 block w-full p-3 border rounded-xl shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              >
+                {priorities.map((priority) => (
+                  <option key={priority.id} value={priority.id}>
+                    {priority.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label
+                htmlFor="priority_id"
+                className="block text-sm font-medium text-gray-700"
+              >
+                სტატუსი*
+              </label>
+              <select
+                id="status_id"
+                name="status_id"
+                value={formData.status_id}
+                onChange={handleChange}
+                required
+                className="dark:text-black mt-1 block w-full p-3 border rounded-xl shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              >
+                {statuses.map((status) => (
+                  <option key={status.id} value={status.id}>
+                    {status.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        <div className="flex justify-end p-10">
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-            დავალების შექმნა
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={loading}
+            className={`${
+              loading
+                ? "bg-gray-200 text-black dark:text-black"
+                : "bg-[#F05922] text-white "
+            }font-semibold px-6 py-3 rounded-xl shadow-md transition duration-200 cursor-pointer`}
+          >
+            {loading ? "დავალება იქმნება ..." : "დავალების შექმნა"}
           </button>
         </div>
       </form>
