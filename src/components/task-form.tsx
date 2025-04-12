@@ -93,6 +93,15 @@ const TaskForm = ({
     try {
       localStorage.removeItem("formData");
       await createTask(formData);
+
+      await fetch("/api/send-task-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
       router.push("/protected");
     } catch (error: unknown) {
       if (error instanceof Error) {
