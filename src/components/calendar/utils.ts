@@ -1,4 +1,4 @@
-const months = [
+const months: string[] = [
   "იანვარი",
   "თებერვალი",
   "მარტი",
@@ -12,7 +12,38 @@ const months = [
   "ნოემბერი",
   "დეკემბერი",
 ];
-const weekdays = ["კვირა", "ორშ.", "სამშ.", "ოთხ", "ხუთ.", "პარ", "შაბათი"];
+const weekdays: string[] = [
+  "კვირა",
+  "ორშ.",
+  "სამშ.",
+  "ოთხ",
+  "ხუთ.",
+  "პარ",
+  "შაბათი",
+];
 const today = new Date();
+const currentMonth: number = today.getMonth();
+const currentYear: number = today.getFullYear();
 
-export { months, weekdays, today };
+const firstDayOfMonth = (year: number, month: number) =>
+  new Date(year, month, 1);
+
+const daysInMonth = (year: number, month: number) =>
+  new Date(year, month + 1, 0).getDate();
+
+const dayOfWeekOfFirstDayOfMonth = (year: number, month: number) =>
+  firstDayOfMonth(year, month).getDay();
+
+const currentWeek = Math.ceil(
+  (dayOfWeekOfFirstDayOfMonth(currentYear, currentMonth) + today.getDate()) / 7
+);
+
+export {
+  months,
+  weekdays,
+  currentMonth,
+  currentYear,
+  currentWeek,
+  daysInMonth,
+  dayOfWeekOfFirstDayOfMonth,
+};

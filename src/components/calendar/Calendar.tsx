@@ -4,7 +4,8 @@ import TaskModal from "./TaskModal";
 import { MdAddTask } from "react-icons/md";
 import { createClient } from "@/utils/supabase/client";
 import { createCalendarTask } from "./create-calendar-task";
-import { months, weekdays, today } from "./utils";
+import * as utils from "./utils";
+import { Task } from "./type";
 
 export default function Calendar() {
   const supabase = createClient();
@@ -27,28 +28,31 @@ export default function Calendar() {
     loadTasks();
   }, [supabase]);
 
-  const [month, setMonth] = useState(today.getMonth());
-  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState<number>(utils.currentMonth);
+  const [year, setYear] = useState<number>(utils.currentYear);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [tasks, setTasks] = useState<{
-    [key: string]: { text: string; checked: boolean }[];
-  }>({});
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayOfWeek = new Date(year, month, 1).getDay();
+  const [tasks, setTasks] = useState<Task>({});
+  const [selectedWeek, setSelectedWeek] = useState<number>(utils.currentWeek);
   const days = Array.from(
-    { length: daysInMonth },
+    { length: utils.daysInMonth(year, month) },
     (_, i) => new Date(year, month, i + 1)
   );
-  const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
-  const todaysWeekNumber: number = 1;
-  const [selectedWeek, setSelectedWeek] = useState(todaysWeekNumber);
+  const weeks = Math.ceil(
+    (utils.dayOfWeekOfFirstDayOfMonth(year, month) +
+      utils.daysInMonth(year, month)) /
+      7
+  );
 
-  const todaysNumber = new Date().getDate();
-  console.log("todaysNumber", todaysNumber);
-
+  // console.log(new Date(year, month, 1).toString());
+  console.log(days.toString());
+  console.log(month);
   const getDateKey = (date: Date) =>
     `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+
+  console.log(
+    "dayOfWeekOfFirstDayOfMonth",
+    utils.dayOfWeekOfFirstDayOfMonth(2025, 3)
+  );
 
   const addTask = async (date: Date, taskText: string) => {
     const key = getDateKey(date);
@@ -151,7 +155,7 @@ export default function Calendar() {
 
   const renderWeekdays = () => (
     <>
-      {weekdays.map((d) => (
+      {utils.weekdays.map((d) => (
         <div key={d} className="font-bold hidden lg:block">
           {d}
         </div>
@@ -160,9 +164,10 @@ export default function Calendar() {
   );
 
   const renderMonthGrid = () => {
-    const emptyDays = Array.from({ length: firstDayOfWeek }, (_, i) => (
-      <div key={`empty-${i}`} />
-    ));
+    const emptyDays = Array.from(
+      { length: utils.dayOfWeekOfFirstDayOfMonth(year, month) },
+      (_, i) => <div key={`empty-${i}`} />
+    );
     return (
       <div className="lg:grid gap-1 lg:grid-cols-7 hidden">
         {renderWeekdays()}
@@ -174,7 +179,8 @@ export default function Calendar() {
 
   const renderWeekGrid = () => {
     const filtered = days.filter((date) => {
-      const dayIndex = date.getDate() + firstDayOfWeek - 1;
+      const dayIndex =
+        date.getDate() + utils.dayOfWeekOfFirstDayOfMonth(year, month) - 1;
       const week = Math.floor(dayIndex / 7) + 1;
       return week === selectedWeek;
     });
@@ -199,7 +205,7 @@ export default function Calendar() {
           onChange={(e) => setMonth(Number(e.target.value))}
           className="px-2 text-black bg-gray-100"
         >
-          {months.map((m, index) => (
+          {utils.months.map((m, index) => (
             <option key={index} value={index}>
               {m}
             </option>
@@ -212,7 +218,7 @@ export default function Calendar() {
         >
           {Array.from({ length: weeks }, (_, idx) => (
             <option key={idx} value={idx + 1}>
-              Week {idx + 1}
+              კვირა {idx + 1}
             </option>
           ))}
         </select>
