@@ -4,23 +4,7 @@ import TaskModal from "./TaskModal";
 import { MdAddTask } from "react-icons/md";
 import { createClient } from "@/utils/supabase/client";
 import { createCalendarTask } from "./create-calendar-task";
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+import { months, weekdays, today } from "./utils";
 
 export default function Calendar() {
   const supabase = createClient();
@@ -41,16 +25,14 @@ export default function Calendar() {
     }
 
     loadTasks();
-  }, []);
+  }, [supabase]);
 
-  const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<{
     [key: string]: { text: string; checked: boolean }[];
   }>({});
-  const [selectedWeek, setSelectedWeek] = useState(1);
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfWeek = new Date(year, month, 1).getDay();
@@ -59,6 +41,11 @@ export default function Calendar() {
     (_, i) => new Date(year, month, i + 1)
   );
   const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
+  const todaysWeekNumber: number = 1;
+  const [selectedWeek, setSelectedWeek] = useState(todaysWeekNumber);
+
+  const todaysNumber = new Date().getDate();
+  console.log("todaysNumber", todaysNumber);
 
   const getDateKey = (date: Date) =>
     `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
