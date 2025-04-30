@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TaskModal from "./TaskModal";
 import { MdAddTask } from "react-icons/md";
 import { createClient } from "@/utils/supabase/client";
@@ -28,6 +28,13 @@ export default function Calendar() {
     loadTasks();
   }, [supabase]);
 
+  const [editingTask, setEditingTask] = useState<{
+    key: string;
+    idx: number;
+    text: string;
+  } | null>(null);
+  // const [updatedTaskText, setUpdatedTaskText] = useState<string>("");
+  // const [isEditing, setIsEditing] = useState<boolean>(false);
   const [month, setMonth] = useState<number>(utils.currentMonth);
   const [year, setYear] = useState<number>(utils.currentYear);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -43,19 +50,8 @@ export default function Calendar() {
       7
   );
 
-  // console.log(new Date(year, month, 1).toString());
-  console.log(days.toString());
-  console.log(month);
-  const getDateKey = (date: Date) =>
-    `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-
-  console.log(
-    "dayOfWeekOfFirstDayOfMonth",
-    utils.dayOfWeekOfFirstDayOfMonth(2025, 3)
-  );
-
   const addTask = async (date: Date, taskText: string) => {
-    const key = getDateKey(date);
+    const key = utils.getDateKey(date);
     const taskData = {
       date_key: key,
       task_text: taskText,
@@ -109,9 +105,83 @@ export default function Calendar() {
       setTasks((prev) => ({ ...prev, [key]: updated }));
     }
   };
+  const handleEditClick = (key: string, idx: number) => {
+    const taskToEdit = tasks[key][idx];
+    setEditingTask({ key, idx, text: taskToEdit.text });
+  };
+
+  const handleSaveClick = async (newText: string) => {
+    if (!editingTask) return;
+    const { key, idx } = editingTask;
+    const taskToEdit = tasks[key][idx];
+
+    const { data, error } = await supabase
+      .from("calendar_tasks")
+      .select("id")
+      .eq("date_key", key)
+      .eq("task_text", taskToEdit.text)
+      .maybeSingle();
+
+    if (error || !data) {
+      console.error("Error finding task:", error);
+      return;
+    }
+
+    const { id } = data;
+    const { error: updateError } = await supabase
+      .from("calendar_tasks")
+      .update({ task_text: newText })
+      .eq("id", id);
+
+    if (updateError) {
+      console.error("Error updating task:", updateError);
+    } else {
+      const updated = tasks[key].map((task, i) =>
+        i === idx ? { ...task, text: newText } : task
+      );
+      setTasks((prev) => ({ ...prev, [key]: updated }));
+    }
+    setEditingTask(null);
+  };
+
+  const TaskInput = ({
+    initialText,
+    onSave,
+  }: {
+    initialText: string;
+    onSave: (text: string) => void;
+  }) => {
+    const [text, setText] = useState(initialText);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+    // Resize textarea on input
+    useEffect(() => {
+      const textarea = textareaRef.current;
+      if (textarea) {
+        textarea.style.height = "auto"; // Reset height
+        textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
+      }
+    }, [text]);
+
+    return (
+      <>
+        <textarea
+          ref={textareaRef}
+          className="w-full p-1 border rounded resize-none overflow-hidden"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Enter task"
+        />
+        <button onClick={() => onSave(text)} className="border mt-1 px-2 py-1">
+          Save
+        </button>
+      </>
+    );
+  };
 
   const renderDay = (date: Date) => {
-    const key = getDateKey(date);
+    const key = utils.getDateKey(date);
+
     return (
       <div key={key} className="border p-2">
         <div
@@ -127,27 +197,49 @@ export default function Calendar() {
           <MdAddTask />
         </div>
         <div className="flex flex-col gap-2">
-          {(tasks[key] || []).map((task, index) => (
-            <div
-              key={index}
-              className="flex items-start gap-1 w-full break-words border-b"
-            >
-              <label
-                className={`whitespace-normal break-words cursor-pointer flex gap-1 ${
-                  task.checked && "text-green-600"
-                }`}
-                style={{ overflowWrap: "anywhere" }}
+          {(tasks[key] || []).map((task, index) => {
+            return (
+              <div
+                key={`${key}-${index}`}
+                className="flex justify-between gap-1 w-full break-words border-b"
               >
-                <input
-                  type="checkbox"
-                  checked={task.checked}
-                  onChange={() => toggleTask(key, index)}
-                  className="mt-0.5"
-                />
-                {task.text}
-              </label>
-            </div>
-          ))}
+                <label
+                  className={`whitespace-normal break-words cursor-pointer flex gap-1 ${
+                    task.checked && "text-green-600"
+                  }`}
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={task.checked}
+                    onChange={() => toggleTask(key, index)}
+                    className="mt-0.5"
+                  />
+                </label>
+                {editingTask?.key === key && editingTask?.idx === index ? (
+                  <TaskInput
+                    initialText={editingTask.text}
+                    onSave={(newText) => {
+                      handleSaveClick(newText);
+                    }}
+                  />
+                ) : (
+                  <>
+                    <span
+                      className={`break-words whitespace-pre-wrap w-full overflow-wrap-anywhere ${
+                        task.checked && "text-green-600"
+                      }`}
+                    >
+                      {task.text}
+                    </span>
+                    <button onClick={() => handleEditClick(key, index)}>
+                      edit
+                    </button>
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
@@ -163,7 +255,7 @@ export default function Calendar() {
     </>
   );
 
-  const renderMonthGrid = () => {
+  const MonthGrid = () => {
     const emptyDays = Array.from(
       { length: utils.dayOfWeekOfFirstDayOfMonth(year, month) },
       (_, i) => <div key={`empty-${i}`} />
@@ -177,7 +269,7 @@ export default function Calendar() {
     );
   };
 
-  const renderWeekGrid = () => {
+  const WeekGrid = ({ days }: { days: Date[] }) => {
     const filtered = days.filter((date) => {
       const dayIndex =
         date.getDate() + utils.dayOfWeekOfFirstDayOfMonth(year, month) - 1;
@@ -224,8 +316,8 @@ export default function Calendar() {
         </select>
       </div>
 
-      {renderMonthGrid()}
-      {renderWeekGrid()}
+      <MonthGrid />
+      <WeekGrid days={days} />
 
       {selectedDate && (
         <TaskModal
