@@ -38,7 +38,11 @@ const currentWeek = Math.ceil(
   (dayOfWeekOfFirstDayOfMonth(currentYear, currentMonth) + today.getDate()) / 7
 );
 
+const getDateKey = (date: Date) =>
+  `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+
 export {
+  getDateKey,
   months,
   weekdays,
   currentMonth,
