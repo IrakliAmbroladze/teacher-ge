@@ -1,6 +1,5 @@
 import { HEADER_HEIGHT } from "@/lib/constants";
-import { UserHomePageTitle } from "@/components/ui/UserHomePageTitle";
-import { MenuCarousel } from "@/components/ui/MenuCarousel";
+import { MenuCarousel, UserHomePageTitle } from "@/components";
 
 export default async function ProtectedPage() {
   return (
