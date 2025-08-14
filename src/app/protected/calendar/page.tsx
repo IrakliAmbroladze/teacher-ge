@@ -1,4 +1,4 @@
-import Calendar from "@/features/calendar/Calendar";
+import Calendar from "@/components/organisms/calendar/Calendar";
 import { HEADER_HEIGHT } from "@/lib/constants";
 import React from "react";
 

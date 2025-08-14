@@ -1,11 +1,15 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import TaskModal from "./TaskModal";
+import TaskModal from "../TaskModal";
 import { MdAddTask } from "react-icons/md";
 import { createClient } from "@/utils/supabase/client";
-import { createCalendarTask } from "./create-calendar-task";
-import * as utils from "./utils";
-import { Task } from "./type";
+import { createCalendarTask } from "../../../features/calendar/create-calendar-task";
+import * as utils from "../../../features/calendar/utils";
+import type { Task } from "../../../features/calendar/type";
+import MonthGrid from "./MonthGrid";
+import WeekGrid from "./WeekGrid";
+import { addTask, toggleTask } from "@/utils";
+import { useCalendar, useHandleClick } from "@/hooks";
 
 export default function Calendar() {
   const supabase = createClient();
@@ -40,109 +44,19 @@ export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<Task>({});
   const [selectedWeek, setSelectedWeek] = useState<number>(utils.currentWeek);
-  const days = Array.from(
-    { length: utils.daysInMonth(year, month) },
-    (_, i) => new Date(year, month, i + 1)
-  );
-  const weeks = Math.ceil(
-    (utils.dayOfWeekOfFirstDayOfMonth(year, month) +
-      utils.daysInMonth(year, month)) /
-      7
+  const { days, weeks } = useCalendar(
+    year,
+    month,
+    utils.daysInMonth,
+    utils.dayOfWeekOfFirstDayOfMonth
   );
 
-  const addTask = async (date: Date, taskText: string) => {
-    const key = utils.getDateKey(date);
-    const taskData = {
-      date_key: key,
-      task_text: taskText,
-      checked: false,
-    };
-    try {
-      await createCalendarTask(taskData);
-      setTasks((prev) => ({
-        ...prev,
-        [key]: [...(prev[key] || []), { text: taskText, checked: false }],
-      }));
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log("Error: " + error.message);
-      } else {
-        console.log("An unknown error occurred.");
-      }
-    }
-  };
-
-  const toggleTask = async (key: string, idx: number) => {
-    const taskToToggle = tasks[key][idx];
-
-    // Find the matching task in Supabase
-    const { data, error } = await supabase
-      .from("calendar_tasks")
-      .select("id")
-      .eq("date_key", key)
-      .eq("task_text", taskToToggle.text)
-      .maybeSingle();
-
-    if (error || !data) {
-      console.error("Error finding task to toggle:", error);
-      return;
-    }
-
-    const { id } = data;
-    const updatedChecked = !taskToToggle.checked;
-
-    const { error: updateError } = await supabase
-      .from("calendar_tasks")
-      .update({ checked: updatedChecked })
-      .eq("id", id);
-
-    if (updateError) {
-      console.error("Error updating task:", updateError);
-    } else {
-      const updated = tasks[key].map((task, i) =>
-        i === idx ? { ...task, checked: updatedChecked } : task
-      );
-      setTasks((prev) => ({ ...prev, [key]: updated }));
-    }
-  };
-  const handleEditClick = (key: string, idx: number) => {
-    const taskToEdit = tasks[key][idx];
-    setEditingTask({ key, idx, text: taskToEdit.text });
-  };
-
-  const handleSaveClick = async (newText: string) => {
-    if (!editingTask) return;
-    const { key, idx } = editingTask;
-    const taskToEdit = tasks[key][idx];
-
-    const { data, error } = await supabase
-      .from("calendar_tasks")
-      .select("id")
-      .eq("date_key", key)
-      .eq("task_text", taskToEdit.text)
-      .maybeSingle();
-
-    if (error || !data) {
-      console.error("Error finding task:", error);
-      return;
-    }
-
-    const { id } = data;
-    const { error: updateError } = await supabase
-      .from("calendar_tasks")
-      .update({ task_text: newText })
-      .eq("id", id);
-
-    if (updateError) {
-      console.error("Error updating task:", updateError);
-    } else {
-      const updated = tasks[key].map((task, i) =>
-        i === idx ? { ...task, text: newText } : task
-      );
-      setTasks((prev) => ({ ...prev, [key]: updated }));
-    }
-    setEditingTask(null);
-  };
+  const { handleEditClick, handleSaveClick } = useHandleClick({
+    tasks,
+    setEditingTask,
+    editingTask,
+    setTasks,
+  });
 
   const TaskInput = ({
     initialText,
@@ -212,7 +126,7 @@ export default function Calendar() {
                   <input
                     type="checkbox"
                     checked={task.checked}
-                    onChange={() => toggleTask(key, index)}
+                    onChange={() => toggleTask(tasks, key, index, setTasks)}
                     className="mt-0.5"
                   />
                 </label>
@@ -241,44 +155,6 @@ export default function Calendar() {
             );
           })}
         </div>
-      </div>
-    );
-  };
-
-  const renderWeekdays = () => (
-    <>
-      {utils.weekdays.map((d) => (
-        <div key={d} className="font-bold hidden lg:block">
-          {d}
-        </div>
-      ))}
-    </>
-  );
-
-  const MonthGrid = () => {
-    const emptyDays = Array.from(
-      { length: utils.dayOfWeekOfFirstDayOfMonth(year, month) },
-      (_, i) => <div key={`empty-${i}`} />
-    );
-    return (
-      <div className="lg:grid gap-1 lg:grid-cols-7 hidden">
-        {renderWeekdays()}
-        {emptyDays}
-        {days.map(renderDay)}
-      </div>
-    );
-  };
-
-  const WeekGrid = ({ days }: { days: Date[] }) => {
-    const filtered = days.filter((date) => {
-      const dayIndex =
-        date.getDate() + utils.dayOfWeekOfFirstDayOfMonth(year, month) - 1;
-      const week = Math.floor(dayIndex / 7) + 1;
-      return week === selectedWeek;
-    });
-    return (
-      <div className="grid grid-cols-1 gap-1 lg:hidden">
-        {filtered.map(renderDay)}
       </div>
     );
   };
@@ -316,15 +192,27 @@ export default function Calendar() {
         </select>
       </div>
 
-      <MonthGrid />
-      <WeekGrid days={days} />
+      <MonthGrid year={year} month={month} days={days} renderDay={renderDay} />
+      <WeekGrid
+        year={year}
+        month={month}
+        days={days}
+        renderDay={renderDay}
+        selectedWeek={selectedWeek}
+      />
 
       {selectedDate && (
         <TaskModal
           date={selectedDate}
           onClose={() => setSelectedDate(null)}
           onAdd={(text) => {
-            addTask(selectedDate, text);
+            addTask(
+              selectedDate,
+              text,
+              utils.getDateKey,
+              createCalendarTask,
+              setTasks
+            );
             setSelectedDate(null);
           }}
         />

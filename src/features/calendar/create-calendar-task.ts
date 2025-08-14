@@ -1,15 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-
-interface CalendarTask {
-  id?: string;
-  user_id?: string;
-  date_key: string;
-  task_text: string;
-  checked: boolean;
-  created_at?: string;
-}
+import { CalendarTask } from "@/types";
 
 export async function createCalendarTask(taskData: CalendarTask) {
   const supabase = createClient();
