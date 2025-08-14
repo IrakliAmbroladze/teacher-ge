@@ -1,5 +1,5 @@
 import { HEADER_HEIGHT } from "@/lib/constants";
-import { MenuCarousel, UserHomePageTitle } from "@/components";
+import { MenuCarousel } from "@/components";
 
 export default async function ProtectedPage() {
   return (
@@ -7,7 +7,6 @@ export default async function ProtectedPage() {
       className="flex-1 w-full flex flex-col items-center "
       style={{ paddingTop: HEADER_HEIGHT }}
     >
-      <UserHomePageTitle />
       <MenuCarousel />
     </div>
   );
