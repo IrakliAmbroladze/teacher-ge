@@ -7,31 +7,9 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 import Image from "next/image";
+import { slidesNavigation } from "@/constants";
 
 export const MenuCarousel = () => {
-  const swiperSlideTailwindCss = "flex items-center justify-center text-white";
-  const slidesArray = [
-    {
-      title: "კალენდარი",
-      imageSrc: "/calendar.png",
-      pageDestination: "/protected/calendar",
-    },
-    {
-      title: "პირადი გეგმები",
-      imageSrc: "/private.png",
-      pageDestination: "/protected/private",
-    },
-    {
-      title: "პროექტები",
-      imageSrc: "/projects.png",
-      pageDestination: "/protected/projects",
-    },
-    {
-      title: "საჭირო ნივთები",
-      imageSrc: "/needs.png",
-      pageDestination: "/protected/needs",
-    },
-  ];
   const CustomSlide = ({
     title,
     imageSrc,
@@ -61,7 +39,7 @@ export const MenuCarousel = () => {
       <Swiper
         className="w-full h-64"
         modules={[Navigation, Pagination, Scrollbar, A11y]}
-        spaceBetween={50}
+        spaceBetween={10}
         slidesPerView={2}
         navigation
         pagination={{ clickable: true }}
@@ -72,8 +50,11 @@ export const MenuCarousel = () => {
           640: { slidesPerView: 3 },
         }}
       >
-        {slidesArray.map((slide) => (
-          <SwiperSlide className={swiperSlideTailwindCss} key={slide.title}>
+        {slidesNavigation.map((slide) => (
+          <SwiperSlide
+            className="flex items-center justify-center text-white h-64"
+            key={slide.title}
+          >
             <CustomSlide
               title={slide.title}
               imageSrc={slide.imageSrc}
