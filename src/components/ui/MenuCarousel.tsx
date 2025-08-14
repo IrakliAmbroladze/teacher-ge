@@ -37,7 +37,7 @@ export const MenuCarousel = () => {
   return (
     <>
       <Swiper
-        className="w-full h-64"
+        className="w-full h-[500px]"
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={10}
         slidesPerView={2}
