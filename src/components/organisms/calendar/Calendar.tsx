@@ -7,6 +7,7 @@ import { useCalendar, useHandleClick } from "@/hooks";
 import CalendarHeader from "./CalendarHeader";
 import type { EditingTask } from "@/types";
 import CalendarGrid from "./CalendarGrid";
+import { daysArrayOfMonth } from "@/utils";
 
 export default function Calendar({ calendarTasks }: { calendarTasks: Task }) {
   const [editingTask, setEditingTask] = useState<EditingTask | null>(null);
@@ -15,12 +16,8 @@ export default function Calendar({ calendarTasks }: { calendarTasks: Task }) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<Task>(calendarTasks);
   const [selectedWeek, setSelectedWeek] = useState<number>(utils.currentWeek);
-  const { days, weeks } = useCalendar(
-    year,
-    month,
-    utils.daysInMonth,
-    utils.dayOfWeekOfFirstDayOfMonth
-  );
+
+  const { weeks } = useCalendar(year, month);
 
   const { handleEditClick, handleSaveClick, handleAdd } = useHandleClick({
     tasks,
@@ -44,7 +41,7 @@ export default function Calendar({ calendarTasks }: { calendarTasks: Task }) {
       <CalendarGrid
         year={year}
         month={month}
-        days={days}
+        days={daysArrayOfMonth(year, month)}
         selectedWeek={selectedWeek}
         setSelectedDate={setSelectedDate}
         tasks={tasks}
