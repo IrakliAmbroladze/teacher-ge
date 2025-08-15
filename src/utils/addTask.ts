@@ -1,7 +1,7 @@
 import { CalendarTask } from "@/types";
 
 export const addTask = async (
-  date: Date,
+  date: Date | null,
   taskText: string,
   getKey: (date: Date) => string,
   createCalendarTask: (taskData: CalendarTask) => void,
@@ -11,6 +11,7 @@ export const addTask = async (
     }>
   >
 ) => {
+  if (!date) return;
   const key = getKey(date);
   const taskData = {
     date_key: key,
