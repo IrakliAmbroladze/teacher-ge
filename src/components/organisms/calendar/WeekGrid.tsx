@@ -1,16 +1,33 @@
+import { Task } from "@/features/calendar/type";
 import * as utils from "../../../features/calendar/utils";
 import { CalendarGridProps } from "@/types";
+import DayGrid from "./DayGrid";
 
 type WeekGridType = CalendarGridProps & {
   selectedWeek: number;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  tasks: Task;
+  setTasks: React.Dispatch<React.SetStateAction<Task>>;
+  handleEditClick: (key: string, idx: number) => void;
+  handleSaveClick: (newText: string) => void;
+  editingTask: {
+    key: string;
+    idx: number;
+    text: string;
+  } | null;
 };
 
 const WeekGrid = ({
   year,
   month,
   days,
-  renderDay,
   selectedWeek,
+  setSelectedDate,
+  tasks,
+  setTasks,
+  handleEditClick,
+  handleSaveClick,
+  editingTask,
 }: WeekGridType) => {
   const filtered = days.filter((date) => {
     const dayIndex =
@@ -20,7 +37,18 @@ const WeekGrid = ({
   });
   return (
     <div className="grid grid-cols-1 gap-1 lg:hidden">
-      {filtered.map(renderDay)}
+      {filtered.map((day, index) => (
+        <DayGrid
+          key={index}
+          date={day}
+          setSelectedDate={setSelectedDate}
+          tasks={tasks}
+          setTasks={setTasks}
+          handleEditClick={handleEditClick}
+          handleSaveClick={handleSaveClick}
+          editingTask={editingTask}
+        />
+      ))}
     </div>
   );
 };
