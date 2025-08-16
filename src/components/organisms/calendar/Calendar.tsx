@@ -3,21 +3,22 @@ import { useState } from "react";
 import TaskModal from "../TaskModal";
 import * as utils from "../../../features/calendar/utils";
 import type { Task } from "../../../features/calendar/type";
-import { useCalendar, useHandleClick } from "@/hooks";
+import { useHandleClick } from "@/hooks";
 import CalendarHeader from "./CalendarHeader";
 import type { EditingTask } from "@/types";
 import CalendarGrid from "./CalendarGrid";
-import { daysArrayOfMonth } from "@/utils";
+import { daysArrayOfMonth, weeksNumberInMonth } from "@/utils";
+import { currentMonth, currentYear } from "@/constants";
 
 export default function Calendar({ calendarTasks }: { calendarTasks: Task }) {
   const [editingTask, setEditingTask] = useState<EditingTask | null>(null);
-  const [month, setMonth] = useState<number>(utils.currentMonth);
-  const [year, setYear] = useState<number>(utils.currentYear);
+  const [month, setMonth] = useState<number>(currentMonth);
+  const [year, setYear] = useState<number>(currentYear);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<Task>(calendarTasks);
   const [selectedWeek, setSelectedWeek] = useState<number>(utils.currentWeek);
 
-  const { weeks } = useCalendar(year, month);
+  console.log(year, month, selectedWeek);
 
   const { handleEditClick, handleSaveClick, handleAdd } = useHandleClick({
     tasks,
@@ -34,7 +35,7 @@ export default function Calendar({ calendarTasks }: { calendarTasks: Task }) {
         month={month}
         selectedWeek={selectedWeek}
         setSelectedWeek={setSelectedWeek}
-        weeks={weeks}
+        weeks={weeksNumberInMonth(year, month)}
         setYear={setYear}
         setMonth={setMonth}
       />

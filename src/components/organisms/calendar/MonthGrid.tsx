@@ -1,11 +1,12 @@
 import * as utils from "../../../features/calendar/utils";
+import { weekDayNamesInGeoArray } from "@/constants";
 import { CalendarGridProps } from "@/types";
 import DayGrid from "./DayGrid";
 import { Task } from "@/features/calendar/type";
 
 const renderWeekdays = () => (
   <>
-    {utils.weekdays.map((d) => (
+    {weekDayNamesInGeoArray.map((d) => (
       <div key={d} className="font-bold hidden lg:block">
         {d}
       </div>

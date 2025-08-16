@@ -1,4 +1,4 @@
-import { months } from "@/features/calendar/utils";
+import { monthNamesInGeoArray } from "@/constants";
 
 const CalendarHeader = ({
   year,
@@ -30,7 +30,7 @@ const CalendarHeader = ({
         onChange={(e) => setMonth(Number(e.target.value))}
         className="px-2 text-black bg-gray-100"
       >
-        {months.map((m, index) => (
+        {monthNamesInGeoArray.map((m, index) => (
           <option key={index} value={index}>
             {m}
           </option>

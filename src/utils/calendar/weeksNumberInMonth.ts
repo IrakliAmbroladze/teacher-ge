@@ -3,10 +3,7 @@ import {
   daysInMonth,
 } from "@/features/calendar/utils";
 
-export const useCalendar = (year: number, month: number) => {
-  const weeks = Math.ceil(
+export const weeksNumberInMonth = (year: number, month: number): number =>
+  Math.ceil(
     (dayOfWeekOfFirstDayOfMonth(year, month) + daysInMonth(year, month)) / 7
   );
-
-  return { weeks };
-};
