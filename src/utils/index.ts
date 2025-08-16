@@ -2,3 +2,7 @@ export { addTask } from "./addTask";
 export { toggleTask } from "./toggleTask";
 export { daysArrayOfMonth } from "./calendar/daysArrayOfMonth";
 export { weeksNumberInMonth } from "./calendar/weeksNumberInMonth";
+export { firstDayOfMonth } from "./calendar/firstDayOfMonth";
+export { daysInMonth } from "./calendar/daysInMonth";
+export { getDateKey } from "./calendar/getDateKey";
+export { dayOfWeekOfFirstDayOfMonth } from "./calendar/dayOfWeekOfFirstDayOfMonth";

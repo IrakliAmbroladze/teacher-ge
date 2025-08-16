@@ -1,4 +1,4 @@
-import { daysInMonth } from "@/features/calendar/utils";
+import { daysInMonth } from "@/utils";
 
 export const daysArrayOfMonth = (year: number, month: number) =>
   Array.from(

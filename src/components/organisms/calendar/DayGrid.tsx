@@ -1,7 +1,7 @@
 "use client";
 
 import { Task } from "@/features/calendar/type";
-import { getDateKey } from "@/features/calendar/utils";
+import { getDateKey } from "@/utils";
 import { MdAddTask } from "react-icons/md";
 import { toggleTask } from "@/utils";
 import { useEffect, useRef, useState } from "react";

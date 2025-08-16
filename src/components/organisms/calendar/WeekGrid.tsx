@@ -1,5 +1,5 @@
 import { Task } from "@/features/calendar/type";
-import * as utils from "../../../features/calendar/utils";
+import { dayOfWeekOfFirstDayOfMonth } from "@/utils";
 import { CalendarGridProps } from "@/types";
 import DayGrid from "./DayGrid";
 
@@ -31,7 +31,7 @@ const WeekGrid = ({
 }: WeekGridType) => {
   const filtered = days.filter((date) => {
     const dayIndex =
-      date.getDate() + utils.dayOfWeekOfFirstDayOfMonth(year, month) - 1;
+      date.getDate() + dayOfWeekOfFirstDayOfMonth(year, month) - 1;
     const week = Math.floor(dayIndex / 7) + 1;
     return week === selectedWeek;
   });

@@ -1,7 +1,5 @@
-import {
-  dayOfWeekOfFirstDayOfMonth,
-  daysInMonth,
-} from "@/features/calendar/utils";
+import { dayOfWeekOfFirstDayOfMonth } from "./dayOfWeekOfFirstDayOfMonth";
+import { daysInMonth } from "./daysInMonth";
 
 export const weeksNumberInMonth = (year: number, month: number): number =>
   Math.ceil(

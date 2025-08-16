@@ -1,4 +1,4 @@
-import * as utils from "../../../features/calendar/utils";
+import { dayOfWeekOfFirstDayOfMonth } from "@/utils";
 import { weekDayNamesInGeoArray } from "@/constants";
 import { CalendarGridProps } from "@/types";
 import DayGrid from "./DayGrid";
@@ -38,7 +38,7 @@ const MonthGrid = ({
   editingTask,
 }: MonthGridProps) => {
   const emptyDays = Array.from(
-    { length: utils.dayOfWeekOfFirstDayOfMonth(year, month) },
+    { length: dayOfWeekOfFirstDayOfMonth(year, month) },
     (_, i) => <div key={`empty-${i}`} />
   );
   return (

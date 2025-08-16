@@ -1,6 +1,6 @@
 import { createCalendarTask } from "@/features/calendar/create-calendar-task";
 import { Task } from "@/features/calendar/type";
-import { getDateKey } from "@/features/calendar/utils";
+import { getDateKey } from "@/utils";
 import { addTask } from "@/utils";
 import { createClient } from "@/utils/supabase/client";
 
