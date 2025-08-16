@@ -39,7 +39,7 @@ const CalendarHeader = ({
       <select
         value={selectedWeek}
         onChange={(e) => setSelectedWeek(Number(e.target.value))}
-        className="px-2 lg:hidden text-black bg-gray-100"
+        className="px-2 text-black bg-gray-100"
       >
         {Array.from({ length: weeks }, (_, idx) => (
           <option key={idx} value={idx + 1}>

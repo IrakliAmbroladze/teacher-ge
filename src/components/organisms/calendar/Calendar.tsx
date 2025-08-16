@@ -1,24 +1,25 @@
 "use client";
 import { useState } from "react";
 import TaskModal from "../TaskModal";
-import * as utils from "../../../features/calendar/utils";
-import type { Task } from "../../../features/calendar/type";
+import type { CalendarTasksArray } from "@/types";
 import { useHandleClick } from "@/hooks";
 import CalendarHeader from "./CalendarHeader";
 import type { EditingTask } from "@/types";
 import CalendarGrid from "./CalendarGrid";
-import { daysArrayOfMonth, weeksNumberInMonth } from "@/utils";
+import { currentWeek, daysArrayOfMonth, weeksNumberInMonth } from "@/utils";
 import { currentMonth, currentYear } from "@/constants";
 
-export default function Calendar({ calendarTasks }: { calendarTasks: Task }) {
+export default function Calendar({
+  calendarTasks,
+}: {
+  calendarTasks: CalendarTasksArray;
+}) {
   const [editingTask, setEditingTask] = useState<EditingTask | null>(null);
   const [month, setMonth] = useState<number>(currentMonth);
   const [year, setYear] = useState<number>(currentYear);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [tasks, setTasks] = useState<Task>(calendarTasks);
-  const [selectedWeek, setSelectedWeek] = useState<number>(utils.currentWeek);
-
-  console.log(year, month, selectedWeek);
+  const [tasks, setTasks] = useState<CalendarTasksArray>(calendarTasks);
+  const [selectedWeek, setSelectedWeek] = useState<number>(currentWeek);
 
   const { handleEditClick, handleSaveClick, handleAdd } = useHandleClick({
     tasks,

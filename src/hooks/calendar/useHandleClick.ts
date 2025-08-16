@@ -1,5 +1,5 @@
-import { createCalendarTask } from "@/features/calendar/create-calendar-task";
-import { Task } from "@/features/calendar/type";
+import { createCalendarTask } from "@/lib";
+import { CalendarTasksArray } from "@/types";
 import { getDateKey } from "@/utils";
 import { addTask } from "@/utils";
 import { createClient } from "@/utils/supabase/client";
@@ -11,7 +11,7 @@ export const useHandleClick = ({
   setTasks,
   setSelectedDate,
 }: {
-  tasks: Task;
+  tasks: CalendarTasksArray;
   setEditingTask: React.Dispatch<
     React.SetStateAction<{
       key: string;
@@ -24,7 +24,7 @@ export const useHandleClick = ({
     idx: number;
     text: string;
   } | null;
-  setTasks: React.Dispatch<React.SetStateAction<Task>>;
+  setTasks: React.Dispatch<React.SetStateAction<CalendarTasksArray>>;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
 }) => {
   const handleEditClick = (key: string, idx: number) => {

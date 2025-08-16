@@ -2,7 +2,7 @@ import { dayOfWeekOfFirstDayOfMonth } from "@/utils";
 import { weekDayNamesInGeoArray } from "@/constants";
 import { CalendarGridProps } from "@/types";
 import DayGrid from "./DayGrid";
-import { Task } from "@/features/calendar/type";
+import { CalendarTasksArray } from "@/types";
 
 const renderWeekdays = () => (
   <>
@@ -15,8 +15,8 @@ const renderWeekdays = () => (
 );
 type MonthGridProps = CalendarGridProps & {
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  tasks: Task;
-  setTasks: React.Dispatch<React.SetStateAction<Task>>;
+  tasks: CalendarTasksArray;
+  setTasks: React.Dispatch<React.SetStateAction<CalendarTasksArray>>;
   handleEditClick: (key: string, idx: number) => void;
   handleSaveClick: (newText: string) => void;
   editingTask: {
@@ -42,7 +42,7 @@ const MonthGrid = ({
     (_, i) => <div key={`empty-${i}`} />
   );
   return (
-    <div className="lg:grid gap-1 lg:grid-cols-7 hidden">
+    <div className="grid gap-1 grid-cols-7">
       {renderWeekdays()}
       {emptyDays}
       {days.map((day, index) => (

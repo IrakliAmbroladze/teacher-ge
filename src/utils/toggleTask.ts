@@ -1,11 +1,11 @@
-import { Task } from "@/features/calendar/type";
+import { CalendarTasksArray } from "@/types";
 import { createClient } from "./supabase/client";
 
 export const toggleTask = async (
-  tasks: Task,
+  tasks: CalendarTasksArray,
   key: string,
   idx: number,
-  setTasks: React.Dispatch<React.SetStateAction<Task>>
+  setTasks: React.Dispatch<React.SetStateAction<CalendarTasksArray>>
 ) => {
   const supabase = createClient();
 

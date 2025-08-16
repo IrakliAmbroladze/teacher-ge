@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@/features/calendar/type";
+import { CalendarTasksArray } from "@/types";
 import { getDateKey } from "@/utils";
 import { MdAddTask } from "react-icons/md";
 import { toggleTask } from "@/utils";
@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
 type DayGridProps = {
   date: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  tasks: Task;
-  setTasks: React.Dispatch<React.SetStateAction<Task>>;
+  tasks: CalendarTasksArray;
+  setTasks: React.Dispatch<React.SetStateAction<CalendarTasksArray>>;
   handleEditClick: (key: string, idx: number) => void;
   handleSaveClick: (newText: string) => void;
   editingTask: {

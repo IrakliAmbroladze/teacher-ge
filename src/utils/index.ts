@@ -6,3 +6,4 @@ export { firstDayOfMonth } from "./calendar/firstDayOfMonth";
 export { daysInMonth } from "./calendar/daysInMonth";
 export { getDateKey } from "./calendar/getDateKey";
 export { dayOfWeekOfFirstDayOfMonth } from "./calendar/dayOfWeekOfFirstDayOfMonth";
+export { currentWeek } from "./calendar/currentWeek";

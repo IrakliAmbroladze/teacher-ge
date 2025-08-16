@@ -1,12 +1,12 @@
 "use server";
 
-import { Task } from "@/features/calendar/type";
+import { CalendarTasksArray } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export const getCalendarTasks = async () => {
   const supabase = await createClient();
   const { data, error } = await supabase.from("calendar_tasks").select("*");
-  const calendarTasks: Task = {};
+  const calendarTasks: CalendarTasksArray = {};
 
   if (error) {
     console.error("Error fetching tasks:", error);
