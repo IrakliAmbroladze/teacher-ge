@@ -72,11 +72,9 @@ const DayGrid = ({
         onClick={() => setSelectedDate(date)}
         className="cursor-pointer font-bold flex justify-between pb-2.5"
       >
-        <div className="flex gap-5">
+        <div className="flex gap-0.5 text-xs">
           {date.getDate()}
-          <span className="lg:hidden">
-            {date.toLocaleString("en-US", { weekday: "short" })}
-          </span>
+          <span>{date.toLocaleString("en-US", { weekday: "short" })[0]}</span>
         </div>
         <MdAddTask />
       </div>

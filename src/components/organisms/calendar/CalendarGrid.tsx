@@ -1,22 +1,9 @@
-import { CalendarTasksArray } from "@/types";
+import DayGrid from "./DayGrid";
+import { dayOfWeekOfFirstDayOfMonth } from "@/utils";
 import { CalendarGridProps } from "@/types";
-import MonthGrid from "./MonthGrid";
-import WeekGrid from "./WeekGrid";
 import { useState } from "react";
 
-type CalendarGrid = CalendarGridProps & {
-  selectedWeek: number;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  tasks: CalendarTasksArray;
-  setTasks: React.Dispatch<React.SetStateAction<CalendarTasksArray>>;
-  handleEditClick: (key: string, idx: number) => void;
-  handleSaveClick: (newText: string) => void;
-  editingTask: {
-    key: string;
-    idx: number;
-    text: string;
-  } | null;
-};
+type CalendarGrid = CalendarGridProps;
 
 const CalendarGrid = ({
   year,
@@ -31,6 +18,16 @@ const CalendarGrid = ({
   editingTask,
 }: CalendarGrid) => {
   const [calendarType, setCalendarType] = useState<"month" | "week">("month");
+  const emptyDays = Array.from(
+    { length: dayOfWeekOfFirstDayOfMonth(year, month) },
+    (_, i) => <div key={`empty-${i}`} />
+  );
+  const filtered = days.filter((date) => {
+    const dayIndex =
+      date.getDate() + dayOfWeekOfFirstDayOfMonth(year, month) - 1;
+    const week = Math.floor(dayIndex / 7) + 1;
+    return week === selectedWeek;
+  });
   return (
     <>
       <div className="flex justify-center py-1.5">
@@ -44,33 +41,44 @@ const CalendarGrid = ({
           <option value={"week"}>კვირა</option>
         </select>
       </div>
-      {calendarType == "month" && (
-        <MonthGrid
-          year={year}
-          month={month}
-          days={days}
-          setSelectedDate={setSelectedDate}
-          tasks={tasks}
-          setTasks={setTasks}
-          handleEditClick={handleEditClick}
-          handleSaveClick={handleSaveClick}
-          editingTask={editingTask}
-        />
-      )}
-      {calendarType == "week" && (
-        <WeekGrid
-          year={year}
-          month={month}
-          days={days}
-          selectedWeek={selectedWeek}
-          setSelectedDate={setSelectedDate}
-          tasks={tasks}
-          setTasks={setTasks}
-          handleEditClick={handleEditClick}
-          handleSaveClick={handleSaveClick}
-          editingTask={editingTask}
-        />
-      )}
+      <div
+        className={`grid gap-1 ${
+          calendarType == "week" ? "grid-cols-1" : "grid-cols-7"
+        } `}
+      >
+        {calendarType == "month" ? (
+          <>
+            {emptyDays}
+            {days.map((day, index) => (
+              <DayGrid
+                key={index}
+                date={day}
+                setSelectedDate={setSelectedDate}
+                tasks={tasks}
+                setTasks={setTasks}
+                handleEditClick={handleEditClick}
+                handleSaveClick={handleSaveClick}
+                editingTask={editingTask}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            {filtered.map((day, index) => (
+              <DayGrid
+                key={index}
+                date={day}
+                setSelectedDate={setSelectedDate}
+                tasks={tasks}
+                setTasks={setTasks}
+                handleEditClick={handleEditClick}
+                handleSaveClick={handleSaveClick}
+                editingTask={editingTask}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </>
   );
 };
