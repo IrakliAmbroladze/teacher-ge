@@ -9,6 +9,7 @@ const CalendarPage = async () => {
     <div
       style={{
         marginTop: HEADER_HEIGHT,
+        width: "100%",
       }}
     >
       <Calendar calendarTasks={calendarTasks} />
