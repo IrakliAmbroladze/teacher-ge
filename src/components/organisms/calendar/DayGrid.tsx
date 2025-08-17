@@ -18,6 +18,7 @@ type DayGridProps = {
     idx: number;
     text: string;
   } | null;
+  calendarType: "month" | "week";
 };
 
 const DayGrid = ({
@@ -28,6 +29,7 @@ const DayGrid = ({
   handleEditClick,
   handleSaveClick,
   editingTask,
+  calendarType,
 }: DayGridProps) => {
   const key = getDateKey(date);
 
@@ -67,7 +69,7 @@ const DayGrid = ({
   };
 
   return (
-    <div key={key} className="border p-2">
+    <div key={key} className="border p-0.5 overflow-auto">
       <div
         onClick={() => setSelectedDate(date)}
         className="cursor-pointer font-bold flex justify-between pb-2.5"
@@ -78,24 +80,24 @@ const DayGrid = ({
         </div>
         <MdAddTask />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 overflow-auto text-xs">
         {(tasks[key] || []).map((task, index) => {
           return (
             <div
               key={`${key}-${index}`}
-              className="flex justify-between gap-1 w-full break-words border-b"
+              className="flex justify-between gap-1 w-full break-words border-b  overflow-auto"
             >
               <label
                 className={`whitespace-normal break-words cursor-pointer flex gap-1 ${
                   task.checked && "text-green-600"
-                }`}
+                } ${calendarType == "month" && "hidden"}`}
                 style={{ overflowWrap: "anywhere" }}
               >
                 <input
                   type="checkbox"
                   checked={task.checked}
                   onChange={() => toggleTask(tasks, key, index, setTasks)}
-                  className="mt-0.5"
+                  className={`mt-0.5 ${calendarType == "month" && "hidden"}`}
                 />
               </label>
               {editingTask?.key === key && editingTask?.idx === index ? (
@@ -107,14 +109,30 @@ const DayGrid = ({
                 />
               ) : (
                 <>
-                  <span
-                    className={`break-words whitespace-pre-wrap w-full overflow-wrap-anywhere ${
-                      task.checked && "text-green-600"
-                    }`}
+                  {calendarType == "month" ? (
+                    <span
+                      className={`text-xs w-full ${
+                        task.checked && "text-green-600"
+                      }`}
+                    >
+                      {task.text.length > 10
+                        ? `${task.text.slice(0, 10)}...`
+                        : task.text}
+                    </span>
+                  ) : (
+                    <span
+                      className={`break-words whitespace-pre-wrap w-full overflow-wrap-anywhere ${
+                        task.checked && "text-green-600"
+                      }`}
+                    >
+                      {task.text}
+                    </span>
+                  )}
+
+                  <button
+                    onClick={() => handleEditClick(key, index)}
+                    className={`${calendarType == "month" && "hidden"}`}
                   >
-                    {task.text}
-                  </span>
-                  <button onClick={() => handleEditClick(key, index)}>
                     edit
                   </button>
                 </>

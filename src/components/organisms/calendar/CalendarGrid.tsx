@@ -50,6 +50,7 @@ const CalendarGrid = ({
                 handleEditClick={handleEditClick}
                 handleSaveClick={handleSaveClick}
                 editingTask={editingTask}
+                calendarType={calendarType}
               />
             ))}
           </>
@@ -57,6 +58,7 @@ const CalendarGrid = ({
           <>
             {filtered.map((day, index) => (
               <DayGrid
+                calendarType={calendarType}
                 key={index}
                 date={day}
                 setSelectedDate={setSelectedDate}
