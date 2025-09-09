@@ -6,7 +6,7 @@ export const slidesNavigation = [
   },
   {
     title: "კვირის გეგმები",
-    imageSrc: "/weekPlan.png",
+    imageSrc: "/weekplan.png",
     pageDestination: "/protected/weekplan",
   },
   {
