@@ -5,6 +5,7 @@ import { getDateKey } from "@/utils";
 import { MdAddTask } from "react-icons/md";
 import { toggleTask } from "@/utils";
 import { useEffect, useRef, useState } from "react";
+import { georgianWeekdays } from "@/constants";
 
 type DayGridProps = {
   date: Date;
@@ -68,6 +69,9 @@ const DayGrid = ({
     );
   };
 
+  const englishWeekday = date.toLocaleString("en-US", { weekday: "short" });
+  const georgianWeekday = georgianWeekdays[englishWeekday];
+
   return (
     <div key={key} className="border p-0.5 overflow-auto">
       <div
@@ -76,7 +80,7 @@ const DayGrid = ({
       >
         <div className="flex gap-0.5 text-xs">
           {date.getDate()}
-          <span>{date.toLocaleString("en-US", { weekday: "short" })[0]}</span>
+          <span>{georgianWeekday}</span>
         </div>
         <MdAddTask />
       </div>
