@@ -4,6 +4,7 @@ import { useState } from "react";
 import CalendarBurgerMenu from "./CalendarBurgerMenu";
 import { useCalendarGrid } from "@/hooks";
 import EmptyDays from "./EmptyDays";
+import WeekDays from "./WeekDays";
 
 const CalendarGrid = ({
   year,
@@ -39,6 +40,7 @@ const CalendarGrid = ({
       >
         {calendarType == "month" ? (
           <>
+            <WeekDays />
             <EmptyDays year={year} month={month} />
             {days.map((day, index) => (
               <DayGrid

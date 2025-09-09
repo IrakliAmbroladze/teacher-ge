@@ -4,6 +4,6 @@ export const georgianWeekdays: { [key: string]: string } = {
   Wed: "ოთხ.",
   Thu: "ხუთ.",
   Fri: "პარ.",
-  Sat: "შაბათი",
-  Sun: "კვირა",
+  Sat: "შაბ.",
+  Sun: "კვ.",
 };
