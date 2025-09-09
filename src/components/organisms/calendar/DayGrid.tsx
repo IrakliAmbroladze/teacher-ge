@@ -33,6 +33,7 @@ const DayGrid = ({
   calendarType,
 }: DayGridProps) => {
   const key = getDateKey(date);
+  const isMonthView = calendarType === "month";
 
   const TaskInput = ({
     initialText,
@@ -80,7 +81,7 @@ const DayGrid = ({
       >
         <div className="flex gap-0.5 text-xs">
           {date.getDate()}
-          <span>{georgianWeekday}</span>
+          {!isMonthView && <span>{georgianWeekday}</span>}
         </div>
         <MdAddTask />
       </div>
@@ -94,14 +95,14 @@ const DayGrid = ({
               <label
                 className={`whitespace-normal break-words cursor-pointer flex gap-1 ${
                   task.checked && "text-green-600"
-                } ${calendarType == "month" && "hidden"}`}
+                } ${isMonthView && "hidden"}`}
                 style={{ overflowWrap: "anywhere" }}
               >
                 <input
                   type="checkbox"
                   checked={task.checked}
                   onChange={() => toggleTask(tasks, key, index, setTasks)}
-                  className={`mt-0.5 ${calendarType == "month" && "hidden"}`}
+                  className={`mt-0.5 ${isMonthView && "hidden"}`}
                 />
               </label>
               {editingTask?.key === key && editingTask?.idx === index ? (
@@ -113,7 +114,7 @@ const DayGrid = ({
                 />
               ) : (
                 <>
-                  {calendarType == "month" ? (
+                  {isMonthView ? (
                     <span
                       className={`text-xs w-full ${
                         task.checked && "text-green-600"
@@ -135,7 +136,7 @@ const DayGrid = ({
 
                   <button
                     onClick={() => handleEditClick(key, index)}
-                    className={`${calendarType == "month" && "hidden"}`}
+                    className={`${isMonthView && "hidden"}`}
                   >
                     edit
                   </button>
