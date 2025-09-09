@@ -1,3 +1,5 @@
+"use client";
+
 import type { Contact } from "@/types";
 import React from "react";
 
