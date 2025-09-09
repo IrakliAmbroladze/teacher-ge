@@ -5,9 +5,9 @@ export const slidesNavigation = [
     pageDestination: "/protected/calendar",
   },
   {
-    title: "პირადი გეგმები",
-    imageSrc: "/private.png",
-    pageDestination: "/protected/private",
+    title: "კვირის გეგმები",
+    imageSrc: "/weekPlan.png",
+    pageDestination: "/protected/weekplan",
   },
   {
     title: "პროექტები",
