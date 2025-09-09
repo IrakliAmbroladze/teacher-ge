@@ -10,9 +10,9 @@ export default function HeaderClientSide(): React.JSX.Element {
       </Link>
       <Link
         href="/protected/create-task"
-        className="rounded-sm bg-[#F05922] cursor-pointer py-1 sm:py-2.5 sm:px-5 text-white  "
+        className="rounded-sm bg-[#282f40] cursor-pointer py-1 sm:py-2.5 sm:px-5 text-white  "
       >
-        <span>new</span>
+        <span className="px-1.5">new</span>
       </Link>
     </>
   );
