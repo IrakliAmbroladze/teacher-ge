@@ -4,7 +4,7 @@ import { getCalendarTasks } from "@/lib";
 const CalendarPage = async () => {
   const calendarTasks = await getCalendarTasks();
   return (
-    <div>
+    <div className="bg-[#374159]">
       <Calendar calendarTasks={calendarTasks} />
     </div>
   );

@@ -50,7 +50,7 @@ export default function RootLayout({
             // style={{ paddingTop: HEADER_HEIGHT }}
           >
             <nav
-              className={`w-full sm:px-20 py-5 flex justify-between  items-center fixed top-0 z-50 dark:bg-black bg-gray-50`}
+              className={`w-full sm:px-20 py-5 flex justify-between  items-center fixed top-0 z-50 dark:bg-black bg-gray-500 text-white`}
               style={{ height: HEADER_HEIGHT }}
             >
               <HeaderClientSide />
