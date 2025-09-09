@@ -2,6 +2,9 @@
 
 import type { Contact } from "@/types";
 import React from "react";
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 export function Contacts({ contacts }: { contacts: Contact[] }) {
   return (
