@@ -1,0 +1,1 @@
+export { geoWeekdaysArray } from "./geoWeekdaysArray";
