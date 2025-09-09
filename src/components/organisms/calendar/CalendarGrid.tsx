@@ -19,6 +19,7 @@ const CalendarGrid = ({
   editingTask,
 }: CalendarGridProps) => {
   const [calendarType, setCalendarType] = useState<"month" | "week">("month");
+  const isMonthView = calendarType === "month";
 
   const { handleCalendarViewCahnge, filtered } = useCalendarGrid({
     year,
@@ -29,16 +30,19 @@ const CalendarGrid = ({
   });
   return (
     <>
-      <CalendarBurgerMenu
-        value={calendarType}
-        onChange={handleCalendarViewCahnge}
-      />
+      <div className="mb-2.5 ">
+        <CalendarBurgerMenu
+          value={calendarType}
+          onChange={handleCalendarViewCahnge}
+        />
+      </div>
       <div
-        className={`grid gap-1 ${
-          calendarType == "week" ? "grid-cols-1" : "grid-cols-7"
-        } `}
+        className={`grid gap-1 ${!isMonthView ? "grid-cols-1" : "grid-cols-7"} 
+        bg-[#13161f] text-white rounded-2xl p-3.5 shadow-[-15px_15px_5px_#282f40]
+        m-1.5
+        `}
       >
-        {calendarType == "month" ? (
+        {isMonthView ? (
           <>
             <WeekDays />
             <EmptyDays year={year} month={month} />
