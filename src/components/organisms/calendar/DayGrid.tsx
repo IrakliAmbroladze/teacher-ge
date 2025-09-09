@@ -74,7 +74,7 @@ const DayGrid = ({
   const georgianWeekday = georgianWeekdays[englishWeekday];
 
   return (
-    <div key={key} className="p-0.5 overflow-auto">
+    <div key={key} className="p-0.5 overflow-auto bg-gray-800 rounded-sm">
       <div
         onClick={() => setSelectedDate(date)}
         className={`cursor-pointer font-bold flex ${
@@ -96,7 +96,7 @@ const DayGrid = ({
             >
               <label
                 className={`whitespace-normal break-words cursor-pointer flex gap-1 ${
-                  task.checked && "text-green-600"
+                  task.checked && "text-blue-700"
                 } ${isMonthView && "hidden"}`}
                 style={{ overflowWrap: "anywhere" }}
               >
@@ -119,7 +119,7 @@ const DayGrid = ({
                   {isMonthView ? (
                     <span
                       className={`text-xs w-full ${
-                        task.checked && "text-green-600"
+                        task.checked && "text-blue-700"
                       }`}
                     >
                       {task.text.length > 10
@@ -129,7 +129,7 @@ const DayGrid = ({
                   ) : (
                     <span
                       className={`break-words whitespace-pre-wrap w-full overflow-wrap-anywhere ${
-                        task.checked && "text-green-600"
+                        task.checked && "text-blue-700"
                       }`}
                     >
                       {task.text}
