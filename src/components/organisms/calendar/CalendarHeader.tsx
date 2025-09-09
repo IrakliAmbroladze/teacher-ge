@@ -28,7 +28,7 @@ const CalendarHeader = ({
       <select
         value={month}
         onChange={(e) => setMonth(Number(e.target.value))}
-        className="px-2 text-black bg-gray-100"
+        className="px-2 text-white bg-[#374159]"
       >
         {monthNamesInGeoArray.map((m, index) => (
           <option key={index} value={index}>
@@ -39,7 +39,7 @@ const CalendarHeader = ({
       <select
         value={selectedWeek}
         onChange={(e) => setSelectedWeek(Number(e.target.value))}
-        className="px-2 text-black bg-gray-100"
+        className="px-2 text-white bg-[#374159]"
       >
         {Array.from({ length: weeks }, (_, idx) => (
           <option key={idx} value={idx + 1}>

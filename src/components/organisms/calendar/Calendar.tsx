@@ -30,7 +30,7 @@ export default function Calendar({
   });
 
   return (
-    <div className="w-full px-2.5">
+    <div className="w-full px-2.5 text-white bg-[#374159]">
       <CalendarHeader
         year={year}
         month={month}

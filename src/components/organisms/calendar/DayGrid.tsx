@@ -74,10 +74,12 @@ const DayGrid = ({
   const georgianWeekday = georgianWeekdays[englishWeekday];
 
   return (
-    <div key={key} className="border p-0.5 overflow-auto">
+    <div key={key} className="p-0.5 overflow-auto">
       <div
         onClick={() => setSelectedDate(date)}
-        className="cursor-pointer font-bold flex justify-between pb-2.5"
+        className={`cursor-pointer font-bold flex ${
+          isMonthView ? "justify-center" : "justify-between"
+        } pb-2.5`}
       >
         <div className="flex gap-0.5 text-xs">
           {date.getDate()}
