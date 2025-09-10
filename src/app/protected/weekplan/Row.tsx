@@ -7,7 +7,7 @@ export default function Row({
 }) {
   return (
     <>
-      <div className="border min-h-[100px] text-2xl text-center font-semibold overflow-auto">
+      <div className="border min-h-[100px] text-xl font-semibold  flex w-full overflow-auto justify-center items-center">
         {subject}
       </div>
       {[...Array(5)].map((_, i) => (
