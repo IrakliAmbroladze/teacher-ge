@@ -5,7 +5,7 @@ import TableBody from "./TableBody";
 export default function WeekPlanPage() {
   return (
     <>
-      <div className="w-fulL text-center text-4xl text-black p-5 border font-semibold border-black bg-[#88b545]">
+      <div className="w-fulL text-center text-xl text-black p-5 border font-semibold border-black bg-[#88b545]">
         მეორეები
       </div>
       <div className="w-full overflow-auto">
