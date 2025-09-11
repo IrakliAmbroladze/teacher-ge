@@ -1,0 +1,1 @@
+export { daysArrayOfCurrentWeek } from "./daysArrayOfCurrentWeek";
