@@ -1,16 +1,13 @@
 import React from "react";
 import Row from "./Row";
-// import { fetchWeekPlanTasks } from "@/utils/server/fetchWeekPlanTasks";
 
 export default async function TableBody() {
-  const subjects: Array<"მათემატიკა" | "ქართული" | "ბუნება"> = [
+  const subjects: Array<"მათემატიკა" | "ქართული" | "ბუნება" | "წიგნიერება"> = [
     "მათემატიკა",
     "ქართული",
     "ბუნება",
+    "წიგნიერება",
   ];
-  // const weekPlanTasks: Array<{ id: number; text: string | null }> =
-  //   await fetchWeekPlanTasks();
-  // console.log("weekPlanTasks: ", weekPlanTasks);
   return (
     <>
       {subjects.map((s) => (
