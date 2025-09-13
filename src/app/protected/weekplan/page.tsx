@@ -9,7 +9,7 @@ export default function WeekPlanPage() {
         მეორეები
       </div>
       <div className="w-full overflow-auto">
-        <div className="w-full h-[500px] min-w-4xl">
+        <div className="w-full h-[600px] min-w-4xl">
           <div className="grid grid-cols-6">
             <TableHeader />
             <TableBody />

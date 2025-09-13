@@ -4,7 +4,7 @@ import RowCell from "./RowCell";
 export default function Row({
   subject,
 }: {
-  subject: "მათემატიკა" | "ქართული" | "ბუნება";
+  subject: "მათემატიკა" | "ქართული" | "ბუნება" | "წიგნიერება";
 }) {
   return (
     <>
@@ -13,7 +13,13 @@ export default function Row({
       </div>
       {[...Array(5)].map((_, i) => {
         const id =
-          subject === "მათემატიკა" ? 0 : subject === "ქართული" ? 5 : 10;
+          subject === "მათემატიკა"
+            ? 0
+            : subject === "ქართული"
+              ? 5
+              : subject === "ბუნება"
+                ? 10
+                : 15;
 
         return (
           <div key={i} className="border">

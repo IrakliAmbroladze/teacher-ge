@@ -1,7 +1,7 @@
 import React from "react";
 import HeaderCell from "./HeaderCell";
 
-export default function TableHeader() {
+export default async function TableHeader() {
   return (
     <>
       <div className="bg-[#88b545] text-black border"></div>
