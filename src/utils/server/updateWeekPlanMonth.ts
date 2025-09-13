@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function updateWeekPlanMonth(id: number, month: string) {
+export async function updateWeekPlanMonth(id: number, month: string | number) {
   const supabase = await createClient();
   const { error } = await supabase
     .from("weekPlanHeader")
