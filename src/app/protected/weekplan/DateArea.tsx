@@ -12,12 +12,12 @@ export default function DateArea({
   date: number;
   month: string;
 }) {
-  const [day, setDay] = useState<number>(date);
-  const [geoMonth, setGeoMonth] = useState<string>(month);
+  const [day, setDay] = useState<string | number>(date);
+  const [geoMonth, setGeoMonth] = useState<string | number>(month);
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setFunction: React.Dispatch<React.SetStateAction<string>>,
-    updatedb: (id: number, value: string) => void,
+    e: React.ChangeEvent<HTMLSelectElement>,
+    setFunction: React.Dispatch<React.SetStateAction<string | number>>,
+    updatedb: (id: number, value: string | number) => Promise<void>,
   ) => {
     e.preventDefault();
     setFunction(e.target.value);
@@ -29,7 +29,7 @@ export default function DateArea({
     children,
   }: {
     value: string | number;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange: React.ChangeEventHandler<HTMLSelectElement>;
     children: React.ReactNode;
   }) => {
     return (
