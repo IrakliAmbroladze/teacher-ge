@@ -1,14 +1,10 @@
-import React from "react";
 import RowCell from "./RowCell";
+import { WeekPlanSubject } from "@/types";
 
-export default function Row({
-  subject,
-}: {
-  subject: "მათემატიკა" | "ქართული" | "ბუნება" | "წიგნიერება";
-}) {
+export default function Row({ subject }: { subject: WeekPlanSubject }) {
   return (
     <>
-      <div className="border min-h-[100px] text-xl font-semibold  flex w-full overflow-auto justify-center items-center">
+      <div className="border text-xl font-semibold  flex w-full overflow-auto justify-center items-center">
         {subject}
       </div>
       {[...Array(5)].map((_, i) => {
