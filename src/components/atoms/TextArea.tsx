@@ -3,7 +3,7 @@ import { updateWeekPlanTask } from "@/utils/server/updateWeekPlanTask";
 import React, { useState, useRef, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-export default function TextArea({ id, text }: { id: number; text: string }) {
+export function TextArea({ id, text }: { id: number; text: string }) {
   const [areaText, setAreaText] = useState<string>(text);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const debouncedUpdate = useDebouncedCallback((value: string) => {
