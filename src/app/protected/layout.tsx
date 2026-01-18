@@ -7,9 +7,9 @@ export default function ProtectedLayout({
 }>) {
   return (
     <div
+      className="flex-1 w-full"
       style={{
         marginTop: HEADER_HEIGHT,
-        width: "100%",
       }}
     >
       {children}

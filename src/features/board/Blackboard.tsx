@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components";
-import { use, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 
 export const Blackboard = ({
   contentPromise,
@@ -13,12 +13,22 @@ export const Blackboard = ({
 }) => {
   const content = use(contentPromise);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  console.log(content);
+  const [text, setText] = useState(content.data);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [text]);
+
   const handleSave = () => {
     setIsEditing(false);
   };
   return (
-    <div className="flex flex-col gap-2 p-5">
+    <div className="flex flex-col gap-2 p-5 flex-1">
       <div className="flex justify-center">
         {isEditing ? (
           <div className="flex gap-2">
@@ -36,15 +46,28 @@ export const Blackboard = ({
             />
           </div>
         ) : (
-          <Button
-            textContent="edit"
-            bgColor="#27D3F5"
-            handleClick={() => {
-              setIsEditing(true);
-            }}
-          />
+          <>
+            <Button
+              textContent="edit"
+              bgColor="#27D3F5"
+              handleClick={() => {
+                setIsEditing(true);
+              }}
+            />
+          </>
         )}
       </div>
+      {isEditing ? (
+        <textarea
+          ref={textareaRef}
+          className="w-full flex-1 p-1 border rounded resize-none overflow-hidden"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Enter task"
+        />
+      ) : (
+        <p>{text}</p>
+      )}
     </div>
   );
 };
