@@ -1,10 +1,13 @@
 "use client";
-import { Button } from "@/components";
+import { updateBlackboardContent } from "@/lib/supabase/updateBlackboardContent";
 import { use, useEffect, useRef, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 export const Blackboard = ({
+  name,
   contentPromise,
 }: {
+  name: string;
   contentPromise: Promise<{
     data?: string;
     message: string;
@@ -12,9 +15,11 @@ export const Blackboard = ({
   }>;
 }) => {
   const content = use(contentPromise);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [text, setText] = useState(content.data);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const debouncedUpdate = useDebouncedCallback((value: string) => {
+    updateBlackboardContent(name, value);
+  }, 500);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -24,50 +29,21 @@ export const Blackboard = ({
     }
   }, [text]);
 
-  const handleSave = () => {
-    setIsEditing(false);
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    setText(e.target.value);
+    debouncedUpdate(e.target.value);
   };
+
   return (
     <div className="flex flex-col gap-2 p-5 flex-1">
-      <div className="flex justify-center">
-        {isEditing ? (
-          <div className="flex gap-2">
-            <Button
-              textContent="save"
-              bgColor="#008000"
-              handleClick={handleSave}
-            />
-            <Button
-              textContent="cancel"
-              bgColor="#C0C0C0"
-              handleClick={() => {
-                setIsEditing((prev) => !prev);
-              }}
-            />
-          </div>
-        ) : (
-          <>
-            <Button
-              textContent="edit"
-              bgColor="#27D3F5"
-              handleClick={() => {
-                setIsEditing(true);
-              }}
-            />
-          </>
-        )}
-      </div>
-      {isEditing ? (
-        <textarea
-          ref={textareaRef}
-          className="w-full flex-1 p-1 border rounded resize-none overflow-hidden"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Enter task"
-        />
-      ) : (
-        <p>{text}</p>
-      )}
+      <textarea
+        ref={textareaRef}
+        className="w-full resize-none overflow-hidden outline-none dark:bg-stone-900 p-2 rounded bg-stone-200"
+        value={text ?? ""}
+        onChange={(e) => handleChange(e)}
+        placeholder="Enter task"
+      />
     </div>
   );
 };
