@@ -1,10 +1,5 @@
 import { TeacherBoardCard } from "@/features";
-
-type TeachersBoard = {
-  id?: number;
-  name: string;
-  img_url: string;
-};
+import { TeachersBoard } from "@/features/board/types";
 
 export default function ProjectsPage() {
   const TEACHERS_BOARDS: TeachersBoard[] = [

@@ -1,10 +1,9 @@
+import { TeachersBoard } from "./types";
+
 export const TeacherBoardCard = ({
   name,
   img_url,
-}: {
-  name: string;
-  img_url: string;
-}) => {
+}: Omit<TeachersBoard, "id">) => {
   return (
     <>
       <div>{name}</div>
