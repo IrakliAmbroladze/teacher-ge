@@ -3,10 +3,8 @@ import { Button } from "@/components";
 import { use, useState } from "react";
 
 export const Blackboard = ({
-  name,
   contentPromise,
 }: {
-  name: string;
   contentPromise: Promise<{
     data?: string;
     message: string;
@@ -21,9 +19,6 @@ export const Blackboard = ({
   };
   return (
     <div className="flex flex-col gap-2 p-5">
-      <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-stone-400 text-center">
-        {name.toUpperCase()}
-      </h1>
       <div className="flex justify-center">
         {isEditing ? (
           <div className="flex gap-2">
