@@ -1,13 +1,13 @@
 export const slidesNavigation = [
   {
-    title: "კალენდარი",
-    imageSrc: "/calendar.png",
-    pageDestination: "/protected/calendar",
-  },
-  {
     title: "კვირის გეგმები",
     imageSrc: "/weekplan.png",
     pageDestination: "/protected/weekplan",
+  },
+  {
+    title: "კალენდარი",
+    imageSrc: "/calendar.png",
+    pageDestination: "/protected/calendar",
   },
   {
     title: "პროექტები",
