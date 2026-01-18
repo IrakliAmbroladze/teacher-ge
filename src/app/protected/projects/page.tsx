@@ -6,17 +6,17 @@ export default function ProjectsPage() {
     {
       id: 1,
       name: "ეკოლოგები",
-      img_url: "/calendar.png",
+      img_url: "/teachers/ecology.png",
     },
     {
       id: 2,
       name: "ფლამინგოები",
-      img_url: "/calendar.png",
+      img_url: "/teachers/flamingo.png",
     },
     {
       id: 3,
       name: "მაძიებლები",
-      img_url: "/calendar.png",
+      img_url: "/teachers/detective.png",
     },
     {
       id: 4,
@@ -24,32 +24,32 @@ export default function ProjectsPage() {
       img_url: "/teachers/florists.jpg",
     },
     {
-      id: 6,
+      id: 5,
       name: "დისნეი",
-      img_url: "/calendar.png",
+      img_url: "/teachers/disney.png",
+    },
+    {
+      id: 6,
+      name: "მინიონები",
+      img_url: "/teachers/minions.png",
     },
     {
       id: 7,
-      name: "მინიონები",
-      img_url: "/calendar.png",
+      name: "ლეგოები",
+      img_url: "/teachers/lego.png",
     },
     {
       id: 8,
-      name: "ლეგოები",
-      img_url: "/calendar.png",
+      name: "ვიტამინები",
+      img_url: "/teachers/vitamins.png",
     },
     {
       id: 9,
-      name: "ვიტამინები",
-      img_url: "/calendar.png",
-    },
-    {
-      id: 10,
       name: "მფრინავები",
       img_url: "/teachers/pilots.png",
     },
     {
-      id: 11,
+      id: 10,
       name: "საერთო",
       img_url: "/calendar.png",
     },
