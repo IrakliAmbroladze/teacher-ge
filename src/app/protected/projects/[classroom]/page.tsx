@@ -15,7 +15,7 @@ export default async function ClassRoom({
         {classroom.toUpperCase()}
       </h1>
       <Suspense fallback={<div className="text-center"> ... </div>}>
-        <Blackboard contentPromise={content} />
+        <Blackboard name={classroom} contentPromise={content} />
       </Suspense>
     </>
   );
