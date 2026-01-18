@@ -1,4 +1,5 @@
 import { Blackboard } from "@/features";
+import { getBlackboardContent } from "@/lib/supabase/getBlackboardContent";
 
 export default async function ClassRoom({
   params,
@@ -6,9 +7,10 @@ export default async function ClassRoom({
   params: Promise<{ classroom: string }>;
 }) {
   const { classroom } = await params;
+  const content = getBlackboardContent(classroom);
   return (
     <>
-      <Blackboard name={classroom} />
+      <Blackboard name={classroom} contentPromise={content} />
     </>
   );
 }

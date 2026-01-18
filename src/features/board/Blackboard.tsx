@@ -1,9 +1,17 @@
 "use client";
 import { Button } from "@/components";
-import { useState } from "react";
+import { use, useState } from "react";
 
-export const Blackboard = ({ name }: { name: string }) => {
+export const Blackboard = ({
+  name,
+  contentPromise,
+}: {
+  name: string;
+  contentPromise: Promise<string>;
+}) => {
+  const content = use(contentPromise);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  console.log(content);
   const handleSave = () => {
     setIsEditing(false);
   };
