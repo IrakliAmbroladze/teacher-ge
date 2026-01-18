@@ -7,7 +7,11 @@ export const Blackboard = ({
   contentPromise,
 }: {
   name: string;
-  contentPromise: Promise<string>;
+  contentPromise: Promise<{
+    data?: string;
+    message: string;
+    status?: string;
+  }>;
 }) => {
   const content = use(contentPromise);
   const [isEditing, setIsEditing] = useState<boolean>(false);

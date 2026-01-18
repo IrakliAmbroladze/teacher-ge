@@ -13,7 +13,7 @@ export const getBlackboardContent = async (id: string) => {
     return { message: `❌ შეცდომა: ${error.message}` };
   }
   return {
-    data,
+    data: data?.[0]?.content ?? "",
     message: "✅ ოპერაცია წარმატებით განხორციელდა",
     status: "OK",
   };
