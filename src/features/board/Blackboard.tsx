@@ -4,6 +4,9 @@ import { useState } from "react";
 
 export const Blackboard = ({ name }: { name: string }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const handleSave = () => {
+    setIsEditing(false);
+  };
   return (
     <div className="flex flex-col gap-2 p-5">
       <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-stone-400 text-center">
@@ -15,9 +18,7 @@ export const Blackboard = ({ name }: { name: string }) => {
             <Button
               textContent="save"
               bgColor="#008000"
-              handleClick={() => {
-                setIsEditing((prev) => !prev);
-              }}
+              handleClick={handleSave}
             />
             <Button
               textContent="cancel"
@@ -32,7 +33,7 @@ export const Blackboard = ({ name }: { name: string }) => {
             textContent="edit"
             bgColor="#27D3F5"
             handleClick={() => {
-              setIsEditing((prev) => !prev);
+              setIsEditing(true);
             }}
           />
         )}
